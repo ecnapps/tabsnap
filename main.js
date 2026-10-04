@@ -150,10 +150,11 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && Array.isArray(parsed.participants)) {
+        if (parsed && typeof parsed === 'object') {
           state = {
             ...state,
-            ...parsed,
+            participants: Array.isArray(parsed.participants) ? parsed.participants : [],
+            items: Array.isArray(parsed.items) ? parsed.items : [],
             settings: { ...state.settings, ...(parsed.settings || {}) }
           };
           // Sync UI inputs with loaded settings
@@ -359,6 +360,20 @@
     });
 
     const tableGrandTotal = tableSubtotal + tableTip + tableTax;
+    const unassignedCount = state.items.filter(it => (it.assignedTo || []).filter(id => participantMap.has(id)).length === 0).length;
+
+    // Financial Penny Balancing: when all items are assigned and exact cents are chosen,
+    // absorb +/- 1 or 2 cents rounding discrepancy onto the largest spender so totals match exactly
+    if (roundingMode === 'none' && unassignedCount === 0 && participantMap.size > 0 && tableGrandTotal > 0) {
+      const diff = round2(round2(tableGrandTotal) - round2(sumAssignedTotals));
+      if (Math.abs(diff) > 0 && Math.abs(diff) <= 0.05) {
+        const dinersWithTotals = Array.from(participantMap.values()).filter(p => p.total > 0).sort((a, b) => b.total - a.total);
+        if (dinersWithTotals.length > 0) {
+          dinersWithTotals[0].total = round2(dinersWithTotals[0].total + diff);
+          sumAssignedTotals = round2(sumAssignedTotals + diff);
+        }
+      }
+    }
 
     return {
       currency,
@@ -367,6 +382,7 @@
       tableTax: round2(tableTax),
       tableGrandTotal: round2(tableGrandTotal),
       sumAssignedTotals: round2(sumAssignedTotals),
+      unassignedCount,
       participantsList: Array.from(participantMap.values())
     };
   }
@@ -566,6 +582,20 @@
     // Mobile sticky bar
     if (el.mobileGrandTotalDisplay) {
       el.mobileGrandTotalDisplay.textContent = formatMoney(calc.tableGrandTotal, currency);
+    }
+
+    // Unassigned items alert banner in Step 3
+    const unassignedBanner = document.getElementById('unassignedAlertBanner');
+    const unassignedText = document.getElementById('unassignedAlertText');
+    if (unassignedBanner) {
+      if (calc.unassignedCount > 0) {
+        unassignedBanner.style.display = 'block';
+        if (unassignedText) {
+          unassignedText.textContent = `${calc.unassignedCount} ${calc.unassignedCount === 1 ? 'item is' : 'items are'} unassigned.`;
+        }
+      } else {
+        unassignedBanner.style.display = 'none';
+      }
     }
 
     // Individual Person Cards
@@ -905,6 +935,12 @@
           if (val === 'custom') {
             if (el.tipCustomInput) {
               el.tipCustomInput.style.display = 'block';
+              if (el.tipCustomInput.value) {
+                state.settings.tipType = 'percent';
+                state.settings.tipPercent = Math.max(0, parseFloat(el.tipCustomInput.value) || 0);
+                saveState();
+                renderCalculations();
+              }
               el.tipCustomInput.focus();
             }
           } else {
@@ -1090,6 +1126,21 @@
         renderAll();
         el.resetModalOverlay.classList.remove('active');
         showToast('Table cleared from scratch');
+      });
+    }
+
+    if (el.resetModalOverlay) {
+      // Close on backdrop click
+      el.resetModalOverlay.addEventListener('click', (e) => {
+        if (e.target === el.resetModalOverlay) {
+          el.resetModalOverlay.classList.remove('active');
+        }
+      });
+      // Close on Escape key
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && el.resetModalOverlay.classList.contains('active')) {
+          el.resetModalOverlay.classList.remove('active');
+        }
       });
     }
   }
