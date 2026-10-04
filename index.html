@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +9,10 @@
   <meta name="theme-color" content="#0a0f14">
 
   <!-- Primary Meta Tags -->
-  <title>TabSnap — Divide la Cuenta del Restaurante y Comparte en WhatsApp</title>
-  <meta name="title" content="TabSnap — Divide la Cuenta del Restaurante y Comparte en WhatsApp">
-  <meta name="description" content="Calculadora inteligente para dividir cuentas de restaurantes, salidas con amigos y tickets grupales. Asigna platos compartidos o individuales, propinas e impuestos proporcionales y copia el resumen listo a WhatsApp. 100% privado en tu navegador.">
-  <meta name="keywords" content="dividir cuenta restaurante, calculadora de cuentas, split bill app, repartir propina proporcional, ticket grupal comida, dividir gastos amigos, cuenta para whatsapp, calculadora de propinas, cuentas compartidas">
+  <title>TabSnap — Fair Restaurant Bill Splitter with Tip & Tax</title>
+  <meta name="title" content="TabSnap — Fair Restaurant Bill Splitter with Tip & Tax">
+  <meta name="description" content="Smart itemized restaurant bill calculator. Split dishes, calculate proportional tips & sales tax, and copy a clean breakdown ready for Venmo, iMessage, or WhatsApp. 100% private in your browser.">
+  <meta name="keywords" content="bill splitter, restaurant bill calculator, split the check, tip calculator, fair tip split, split dinner bill, itemized bill splitter, venmo bill split, group dining calculator, share restaurant tab">
   <meta name="author" content="ecn-apps">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://tabsnap.ecn-apps.com/">
@@ -20,17 +20,17 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tabsnap.ecn-apps.com/">
-  <meta property="og:title" content="TabSnap — Divide la Cuenta del Restaurante sin Enredos">
-  <meta property="og:description" content="Ingresa los nombres de tu mesa, carga los platos del ticket asignando a quién le corresponde y calcula propinas e impuestos justos. Copia el resumen formateado a WhatsApp.">
+  <meta property="og:title" content="TabSnap — Fair Restaurant Bill Splitter with Tip & Tax">
+  <meta property="og:description" content="Assign individual or shared dishes, calculate exact proportional tips & sales tax, and copy an itemized breakdown ready for Venmo, iMessage, or WhatsApp.">
   <meta property="og:image" content="https://tabsnap.ecn-apps.com/favicon.svg">
   <meta property="og:site_name" content="TabSnap">
-  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://tabsnap.ecn-apps.com/">
-  <meta name="twitter:title" content="TabSnap — Calculadora de Cuentas Compartidas para Restaurantes">
-  <meta name="twitter:description" content="Divide tickets grupales al instante. Propinas e impuestos proporcionales justos, platos compartidos y resumen listo para WhatsApp.">
+  <meta name="twitter:title" content="TabSnap — Itemized Restaurant Bill Splitter">
+  <meta name="twitter:description" content="Split group tabs instantly. Fair proportional tip & sales tax, shared appetizers, and itemized summaries ready for Venmo or messages.">
   <meta name="twitter:image" content="https://tabsnap.ecn-apps.com/favicon.svg">
 
   <!-- Favicon & PWA -->
@@ -38,6 +38,7 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="alternate" type="application/rss+xml" title="TabSnap RSS Feed" href="https://tabsnap.ecn-apps.com/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="TabSnap RSS Feed (XML)" href="https://tabsnap.ecn-apps.com/rss.xml">
 
   <!-- Preconnect & DNS Prefetch -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,9 +128,9 @@
       "@type": "WebSite",
       "@id": "https://tabsnap.ecn-apps.com/#website",
       "url": "https://tabsnap.ecn-apps.com/",
-      "name": "TabSnap — Calculadora de Cuentas de Restaurante y Gastos Compartidos",
-      "description": "Divide cuentas de salidas grupales, asigna platos individuales o compartidos, calcula propinas proporcionales y exporta a WhatsApp.",
-      "inLanguage": "es",
+      "name": "TabSnap — Itemized Restaurant Bill Splitter & Fair Tip Calculator",
+      "description": "Split group dinner checks, allocate individual or shared appetizers, calculate fair proportional tips and sales tax, and export to Venmo, iMessage, and WhatsApp.",
+      "inLanguage": "en-US",
       "publisher": {
         "@type": "Organization",
         "name": "ecn-apps",
@@ -144,8 +145,8 @@
       "applicationCategory": "FinanceApplication, UtilitiesApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript. Requires LocalStorage.",
-      "description": "Calculadora rápida de cuentas para comensales en restaurantes. Asigna platos por comensal, propina e impuesto proporcional, y genera mensajes listos para WhatsApp.",
-      "inLanguage": "es",
+      "description": "Fast restaurant check calculator for diners. Assign items per person, distribute proportional tips and sales tax, and generate itemized text breakdowns ready for Venmo and messaging apps.",
+      "inLanguage": "en-US",
       "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
@@ -153,12 +154,12 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "Adición y eliminación instantánea de comensales",
-        "Asignación de platos compartidos entre varios o individuales",
-        "Cálculo proporcional exacto de impuestos y propinas",
-        "Generador de texto formateado listo para WhatsApp",
-        "Persistencia local con LocalStorage sin necesidad de registro",
-        "Diseño mobile-first optimizado para celulares en la mesa"
+        "Instant diner addition and removal",
+        "Shared appetizer and drink allocation among any subset of diners",
+        "Mathematically fair proportional sales tax and tipping calculations",
+        "Formatted text summaries ready for Venmo, Zelle, iMessage, and WhatsApp",
+        "100% private with LocalStorage and zero registration required",
+        "Mobile-first responsive interface designed for dining tables"
       ],
       "publisher": {
         "@type": "Organization",
@@ -190,34 +191,42 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "¿Por qué es mejor calcular la propina de forma proporcional?",
+          "name": "Why is proportional tipping fairer than splitting evenly?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Dividir la propina en partes iguales castiga a quien consumió poco (por ejemplo, una ensalada o café) y favorece a quien pidió platillos o bebidas costosas. TabSnap calcula el porcentaje de propina e impuestos de manera proporcional al consumo individual real de cada comensal, haciendo la cuenta 100% justa para todos."
+            "text": "Splitting the check evenly penalizes light diners (like someone who ordered just a salad or water) while subsidizing expensive steaks, cocktails, or wine. TabSnap calculates tip and sales tax as an exact proportional percentage of each person's actual subtotal, ensuring 100% mathematical fairness."
           }
         },
         {
           "@type": "Question",
-          "name": "¿Cómo comparto el desglose de la cuenta por WhatsApp?",
+          "name": "How does TabSnap handle shared appetizers or pitchers?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Una vez ingresados los platos y seleccionada la propina, haz clic en el botón 'Copiar resumen para WhatsApp' o 'Abrir WhatsApp'. El sistema genera un mensaje con negritas, emojis, detalle por comensal y datos de transferencia listos para enviar al grupo."
+            "text": "When adding an item, simply tap the names of the people who shared it (e.g., guacamole or a bottle of wine between 3 friends). TabSnap divides the item cost equally among only those diners, and allocates tax and tip to that exact portion."
           }
         },
         {
           "@type": "Question",
-          "name": "¿Mis datos se guardan en algún servidor?",
+          "name": "How do I request payments through Venmo, Zelle, or Cash App?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. TabSnap es 100% privado y del lado del cliente. Todos tus datos se guardan en el LocalStorage de tu propio navegador móvil o de escritorio, sin recopilar información ni requerir inicio de sesión."
+            "text": "Enter your payment handle in the optional payment info field. Once you tap 'Copy Summary for Venmo & Messages', you get a cleanly formatted breakdown with each diner's amount and your payment details, ready to paste into group chats or payment notes."
           }
         },
         {
           "@type": "Question",
-          "name": "¿Puedo dividir un plato entre 2 o más personas en vez de toda la mesa?",
+          "name": "Is my dining or financial data saved on any server?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sí. Al registrar un plato puedes tocar únicamente los nombres de quienes compartieron ese platillo (por ejemplo, una botella de vino o un postre entre 2 amigos) y el costo se repartirá equitativamente entre los elegidos."
+            "text": "No. TabSnap is 100% private and runs entirely client-side. Your calculations stay saved in your browser's LocalStorage so you don't lose progress if you refresh, with zero accounts or tracking."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does sales tax work with tip calculation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the United States, restaurant tips are standardly calculated on the pre-tax food and drink subtotal, and state/local sales tax is added on top. TabSnap follows this standard convention and distributes both sales tax and tip proportionally to each diner's orders."
           }
         }
       ]
@@ -231,7 +240,7 @@
   <!-- Navigation Bar -->
   <header class="header">
     <div class="container header__content">
-      <a href="https://tabsnap.ecn-apps.com/" class="brand" aria-label="TabSnap Inicio">
+      <a href="https://tabsnap.ecn-apps.com/" class="brand" aria-label="TabSnap Home">
         <svg class="brand__logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="64" height="64" rx="16" fill="#0f172a"/>
           <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="15.25" stroke="rgba(52,211,153,0.3)" stroke-width="1.5"/>
@@ -251,128 +260,125 @@
 
       <div class="header__actions">
         <!-- Currency Selector -->
-        <select id="currencySelect" class="currency-select" aria-label="Seleccionar moneda" title="Moneda">
-          <option value="$">$ (Pesos / Dólares)</option>
-          <option value="€">€ (Euros)</option>
-          <option value="£">£ (Libras)</option>
-          <option value="S/">S/ (Soles)</option>
-          <option value="Q">Q (Quetzales)</option>
+        <select id="currencySelect" class="currency-select" aria-label="Select currency" title="Currency">
+          <option value="$">$ (USD)</option>
+          <option value="€">€ (EUR)</option>
+          <option value="£">£ (GBP)</option>
+          <option value="C$">C$ (CAD)</option>
+          <option value="A$">A$ (AUD)</option>
         </select>
 
         <!-- Demo Table Loader -->
-        <button id="btnDemoTable" class="btn-ghost" type="button" title="Cargar cuenta de ejemplo">
-          ✨ Ejemplo
+        <button id="btnDemoTable" class="btn-ghost" type="button" title="Load sample bill">
+          ✨ Load Example
         </button>
 
         <!-- Reset Table -->
-        <button id="btnResetTable" class="btn-ghost danger" type="button" title="Reiniciar mesa">
-          🗑️ Limpiar
+        <button id="btnResetTable" class="btn-ghost danger" type="button" title="Reset table">
+          🗑️ Reset
         </button>
 
         <!-- Dark / Light Theme Toggle -->
-        <button id="themeToggleBtn" class="btn-icon" type="button" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">
+        <button id="themeToggleBtn" class="btn-icon" type="button" title="Toggle dark/light theme" aria-label="Toggle theme">
           <span id="themeIcon">☀️</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Top Responsive Ad Container -->
-  <div class="container ad-slot-wrapper">
-    <div class="ad-slot-container" id="topAdSlot">
-      <span class="ad-slot-label">Publicidad</span>
-      <!-- Google AdSense Live Slot -->
-      <ins class="adsbygoogle"
-           style="display:block; width:100%; max-height:90px;"
-           data-ad-client="ca-pub-9934490837747927"
-           data-ad-slot="auto"
-           data-ad-format="horizontal"
-           data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-  </div>
 
   <!-- Main App Stage -->
   <main class="container">
     <!-- Hero Header -->
     <section class="hero">
-      <h1 class="hero__title">Divide la Cuenta de la Mesa <span>sin Enredos</span></h1>
+      <h1 class="hero__title">Split the Check <span>Fairly & Painlessly</span></h1>
       <p class="hero__subtitle">
-        Asigna platos individuales o compartidos, ajusta la propina proporcionalmente para que cada quien pague lo justo y copia el desglose listo para WhatsApp.
+        Assign individual or shared dishes, calculate exact proportional tips & sales tax so everyone pays what they owe, and copy an itemized breakdown ready for Venmo, iMessage, or WhatsApp.
       </p>
       <div class="hero__tags">
-        <span class="hero__tag">🔒 100% Privado en LocalStorage</span>
-        <span class="hero__tag">⚖️ Propina Proporcional Justa</span>
-        <span class="hero__tag">📲 Resumen para WhatsApp</span>
-        <span class="hero__tag">⚡ Sin Registros</span>
+        <span class="hero__tag">🔒 100% Private (No Account)</span>
+        <span class="hero__tag">⚖️ Fair Proportional Tip & Tax</span>
+        <span class="hero__tag">💸 Ready for Venmo & Messages</span>
+        <span class="hero__tag">⚡ Instant & Free</span>
       </div>
     </section>
 
-    <!-- Two-column interactive grid -->
+    <!-- Two-column interactive grid: 3-Step Guided Pipeline -->
     <div class="app-grid">
 
-      <!-- LEFT COLUMN: Input Stage (Comensales, Consumos, Ajustes) -->
+      <!-- LEFT COLUMN: Step 1 (Diners) & Step 2 (Receipt Items) -->
       <div class="input-stage">
 
-        <!-- Card 1: Comensales -->
-        <section class="card" aria-labelledby="headingParticipants">
+        <!-- STEP 1: Diners -->
+        <section class="card step-card" id="step1Card" aria-labelledby="headingParticipants">
           <div class="card__header">
             <h2 id="headingParticipants" class="card__title">
-              👥 Comensales en la mesa
+              <span class="step-badge">1</span> Diners at the Table
             </h2>
-            <span id="participantsCountBadge" class="card__title-badge">0 comensales</span>
+            <span id="participantsCountBadge" class="card__title-badge">0 diners</span>
           </div>
 
           <div class="participant-input-row">
-            <label for="participantNameInput" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);">Nombre del comensal</label>
-            <input type="text" id="participantNameInput" class="input-text" placeholder="Nombre (ej. Carlos, Sofía...)" autocomplete="off" maxlength="25" enterkeyhint="done">
+            <label for="participantNameInput" class="visually-hidden">Diner name</label>
+            <input type="text" id="participantNameInput" class="input-text" placeholder="Enter name (e.g. Alex, Jordan...)" autocomplete="off" maxlength="25" enterkeyhint="done">
             <button type="button" id="btnAddParticipant" class="btn-primary">
-              + Agregar
+              + Add
             </button>
           </div>
 
+          <!-- Quick Diners Presets -->
+          <div class="quick-diner-presets">
+            <span class="quick-diner-presets-label">Quick add:</span>
+            <button type="button" class="btn-preset-chip" data-quick-diners="2">+ 2 Diners</button>
+            <button type="button" class="btn-preset-chip" data-quick-diners="3">+ 3 Diners</button>
+            <button type="button" class="btn-preset-chip" data-quick-diners="4">+ 4 Diners</button>
+            <button type="button" id="btnQuickDemo" class="btn-preset-chip" style="color: var(--accent-primary); border-color: var(--border-accent);">✨ Load Example</button>
+          </div>
+
           <!-- Participants list chips -->
-          <div id="participantsList" class="participants-list" aria-live="polite">
+          <div id="participantsList" class="participants-list" style="margin-top: 0.75rem;" aria-live="polite">
             <!-- Dynamic participant chips -->
           </div>
         </section>
 
-        <!-- Card 2: Cargar gastos del ticket -->
-        <section class="card" style="margin-top: 1.5rem;" aria-labelledby="headingItems">
+        <!-- STEP 2: Receipt Items -->
+        <section class="card step-card" id="step2Card" style="margin-top: 1.5rem;" aria-labelledby="headingItems">
           <div class="card__header">
             <h2 id="headingItems" class="card__title">
-              🍽️ Platos y Bebidas del Ticket
+              <span class="step-badge">2</span> Items from the Check
             </h2>
-            <span id="itemsCountBadge" class="card__title-badge">0 ítems</span>
+            <span id="itemsCountBadge" class="card__title-badge">0 items</span>
           </div>
 
-          <!-- Add Item Form -->
-          <div class="item-form">
-            <div class="form-group" style="margin-bottom: 0.75rem;">
-              <label for="itemNameInput" class="form-label">Concepto / Plato</label>
-              <input type="text" id="itemNameInput" class="input-text" placeholder="Ej. Tacos, Cerveza, Pizza, Guacamole..." autocomplete="off">
-            </div>
+          <!-- Locked hint when 0 diners -->
+          <div id="step2LockedHint" class="step-locked-hint">
+            👉 Add at least 1 diner in Step 1 above to start adding dishes or drinks.
+          </div>
 
+          <!-- Add Item Form (visible once diners exist) -->
+          <div id="step2Content" class="item-form" style="display: none;">
             <div class="form-row form-row-pricing">
-              <div class="form-group">
-                <label for="itemPriceInput" class="form-label">Precio Unitario ($)</label>
+              <div class="form-group" style="flex: 2;">
+                <label for="itemNameInput" class="form-label">Item / Dish Name</label>
+                <input type="text" id="itemNameInput" class="input-text" placeholder="e.g. Burger, Truffle Fries, Beers..." autocomplete="off">
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label for="itemPriceInput" class="form-label">Price ($)</label>
                 <input type="number" id="itemPriceInput" class="input-number" placeholder="0.00" step="any" min="0" inputmode="decimal">
               </div>
-              <div class="form-group">
-                <label for="itemQtyInput" class="form-label">Cantidad</label>
+              <div class="form-group" style="width: 70px; flex: none;">
+                <label for="itemQtyInput" class="form-label">Qty</label>
                 <input type="number" id="itemQtyInput" class="input-number" value="1" min="1" max="99" inputmode="numeric">
               </div>
             </div>
 
             <!-- Assignees Selector -->
-            <div class="form-group" style="margin-top: 0.85rem;">
+            <div class="form-group" style="margin-top: 0.65rem;">
               <div class="assignees-label-row">
-                <span class="form-label">¿A quién le corresponde?</span>
+                <span class="form-label">Who shared this?</span>
                 <div class="assignees-actions">
-                  <button type="button" id="btnSelectAllAssignees" class="btn-pill-action">Todos</button>
-                  <button type="button" id="btnClearAssignees" class="btn-pill-action">Ninguno</button>
+                  <button type="button" id="btnSelectAllAssignees" class="btn-pill-action">All</button>
+                  <button type="button" id="btnClearAssignees" class="btn-pill-action">None</button>
                 </div>
               </div>
 
@@ -383,131 +389,120 @@
             </div>
 
             <button type="button" id="btnAddItem" class="btn-primary" style="width: 100%; margin-top: 0.5rem;">
-              + Agregar al Ticket
+              + Add Item to Check
             </button>
-          </div>
 
-          <!-- Items Added List -->
-          <div id="itemsList" class="items-list" aria-live="polite">
-            <!-- Dynamic item cards -->
-          </div>
-        </section>
-
-        <!-- Card 3: Ajustes de Propina, Impuestos y Pago -->
-        <section class="card" style="margin-top: 1.5rem;" aria-labelledby="headingSettings">
-          <div class="card__header">
-            <h2 id="headingSettings" class="card__title">
-              ⚙️ Propina e Impuestos
-            </h2>
-          </div>
-
-          <div class="settings-section">
-            <!-- Tip selector -->
-            <div>
-              <span class="form-label" style="display:block; margin-bottom: 0.5rem;" id="tipSelectorLabel">Propina para el servicio</span>
-              <div class="tip-presets-grid" role="group" aria-labelledby="tipSelectorLabel">
-                <button type="button" class="tip-preset-btn" data-tip="0" aria-label="Sin propina 0%">0%</button>
-                <button type="button" class="tip-preset-btn" data-tip="10" aria-label="Propina 10%">10%</button>
-                <button type="button" class="tip-preset-btn active" data-tip="15" aria-label="Propina 15% recomendada">15%</button>
-                <button type="button" class="tip-preset-btn" data-tip="18" aria-label="Propina 18%">18%</button>
-                <button type="button" class="tip-preset-btn" data-tip="custom" aria-label="Propina personalizada">Otro</button>
-              </div>
-              <input type="number" id="tipCustomInput" class="input-number" placeholder="% de propina personalizado" min="0" step="1" inputmode="decimal" style="display: none; margin-top: 0.5rem;" aria-label="Porcentaje de propina personalizado">
-            </div>
-
-            <!-- Tax toggle -->
-            <div class="settings-row">
-              <label class="toggle-switch-group" for="taxToggleCheckbox">
-                <span class="toggle-label">Agregar Impuesto / IVA</span>
-                <input type="checkbox" id="taxToggleCheckbox" class="visually-hidden" style="position:absolute;width:1px;height:1px;clip-path:inset(50%);" aria-label="Activar cálculo de impuesto o IVA adicional">
-                <span class="switch-pill" aria-hidden="true"></span>
-              </label>
-
-              <div id="taxGroupInput" style="display: none;">
-                <label for="taxPercentInput" class="form-label">Impuesto (%)</label>
-                <input type="number" id="taxPercentInput" class="input-number" value="16" min="0" step="any" inputmode="decimal" aria-label="Porcentaje de impuesto o IVA">
-              </div>
-            </div>
-
-            <!-- Rounding option -->
-            <div class="form-group">
-              <label for="roundingSelect" class="form-label">Redondeo de centavos</label>
-              <select id="roundingSelect" class="currency-select" style="width: 100%;" aria-label="Opciones de redondeo de centavos">
-                <option value="none">Sin redondeo (centavos exactos)</option>
-                <option value="ceil">Redondear al entero superior ($ c/u)</option>
-              </select>
-            </div>
-
-            <!-- Bank info for WhatsApp message -->
-            <div class="form-group">
-              <label for="paymentInfoInput" class="form-label">Datos de pago para el mensaje (opcional)</label>
-              <input type="text" id="paymentInfoInput" class="input-text" placeholder="Ej. CLABE BBVA: 01218001... o Celular / Alias" aria-label="Datos bancarios o de transferencia para incluir en WhatsApp">
+            <!-- Items Added List -->
+            <div id="itemsList" class="items-list" style="margin-top: 1rem;" aria-live="polite">
+              <!-- Dynamic item cards -->
             </div>
           </div>
         </section>
 
       </div>
 
-      <!-- RIGHT COLUMN: Output Stage (Totales, Por Persona, WhatsApp) -->
+      <!-- RIGHT COLUMN: Step 3 (Tip, Totals, Breakdown & Share) -->
       <div class="output-stage">
 
-        <!-- Card 4: Gran Total de la Mesa -->
-        <section class="totals-summary-card" aria-labelledby="headingTotals">
-          <div class="totals-breakdown">
-            <div class="breakdown-item">
-              <span class="breakdown-label">Subtotal Consumo</span>
-              <span id="tableSubtotalDisplay" class="breakdown-value">$0.00</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Propina</span>
-              <span id="tableTipDisplay" class="breakdown-value">$0.00</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Impuestos</span>
-              <span id="tableTaxDisplay" class="breakdown-value">Incluido</span>
-            </div>
-          </div>
-
-          <div class="grand-total-row">
-            <div>
-              <span class="grand-total-label" id="headingTotals">Total Mesa</span>
-              <span style="display:block; font-size: 0.78rem; color: var(--text-secondary);">Propina e impuestos repartidos de forma justa</span>
-            </div>
-            <span id="tableGrandTotalDisplay" class="grand-total-amount">$0.00</span>
-          </div>
-        </section>
-
-        <!-- Card 5: Desglose por Comensal -->
-        <section class="card" aria-labelledby="headingBreakdown">
+        <!-- STEP 3: Tip & Final Split -->
+        <section class="card step-card" id="step3Card" aria-labelledby="headingStep3">
           <div class="card__header">
-            <h2 id="headingBreakdown" class="card__title">
-              💰 ¿Cuánto paga cada uno?
+            <h2 id="headingStep3" class="card__title">
+              <span class="step-badge">3</span> Tip & Who Owes What
             </h2>
           </div>
 
-          <div id="personResultsList" class="results-grid" aria-live="polite">
-            <!-- Dynamic person breakdown cards -->
+          <!-- Locked hint when 0 items -->
+          <div id="step3LockedHint" class="step-locked-hint">
+            🧾 Add receipt items in Step 2 to see the tip, totals, and who owes what.
           </div>
 
-          <!-- Card 6: Acciones de WhatsApp -->
-          <div class="actions-card">
-            <button type="button" id="btnCopyWhatsApp" class="btn-whatsapp">
-              <svg viewBox="0 0 24 24">
-                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.56 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.26-1.14l-.3-.18-3.16.83.84-3.08-.2-.32a8.163 8.163 0 0 1-1.25-4.35c0-4.51 3.67-8.18 8.18-8.18zm4.56 11.59c-.25-.13-1.48-.73-1.71-.81-.23-.09-.4-.13-.56.13-.17.25-.65.81-.8 1-.15.19-.3.21-.55.09-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.3.38-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.78 2.71 4.31 3.8.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.3z"/>
-              </svg>
-              Copiar Resumen para WhatsApp
-            </button>
+          <!-- Step 3 Active Content (visible once items exist) -->
+          <div id="step3Content" style="display: none;">
+            <!-- Tip selector row -->
+            <div style="margin-bottom: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                <span class="form-label" style="margin: 0;">Tip for service</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Sales tax: <strong id="taxRateSummary">8.5%</strong></span>
+              </div>
+              <div class="tip-presets-grid" role="group">
+                <button type="button" class="tip-preset-btn" data-tip="15">15%</button>
+                <button type="button" class="tip-preset-btn active" data-tip="18">18%</button>
+                <button type="button" class="tip-preset-btn" data-tip="20">20%</button>
+                <button type="button" class="tip-preset-btn" data-tip="25">25%</button>
+                <button type="button" class="tip-preset-btn" data-tip="custom">Custom</button>
+              </div>
+              <input type="number" id="tipCustomInput" class="input-number" placeholder="Enter % custom tip" min="0" step="1" inputmode="decimal" style="display: none; margin-top: 0.4rem;">
+            </div>
 
-            <button type="button" id="btnOpenWhatsApp" class="btn-copy-clipboard">
-              📲 Abrir WhatsApp Directamente
-            </button>
+            <!-- Check Totals Summary Banner -->
+            <div class="totals-summary-compact">
+              <div class="compact-total-item">
+                <span class="compact-label">Subtotal</span>
+                <span id="tableSubtotalDisplay" class="compact-val">$0.00</span>
+              </div>
+              <div class="compact-total-item">
+                <span class="compact-label">Tip</span>
+                <span id="tableTipDisplay" class="compact-val">$0.00</span>
+              </div>
+              <div class="compact-total-item">
+                <span class="compact-label">Sales Tax</span>
+                <span id="tableTaxDisplay" class="compact-val">$0.00</span>
+              </div>
+              <div class="compact-total-item total-highlight">
+                <span class="compact-label">Total Check</span>
+                <span id="tableGrandTotalDisplay" class="compact-val highlight">$0.00</span>
+              </div>
+            </div>
 
-            <details style="margin-top: 0.5rem;">
-              <summary style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer;">
-                Ver vista previa del texto de WhatsApp ▾
-              </summary>
-              <div id="whatsappPreviewText" class="whatsapp-preview-box"></div>
-            </details>
+            <!-- Individual Diners Results Grid -->
+            <div id="personResultsList" class="results-grid" aria-live="polite" style="margin-top: 1rem;">
+              <!-- Dynamic person breakdown cards -->
+            </div>
+
+            <!-- Actions (Primary Copy button + secondary share) -->
+            <div class="actions-card" style="margin-top: 1.25rem;">
+              <button type="button" id="btnCopySummary" class="btn-primary-share">
+                📋 Copy Summary (Venmo & Text)
+              </button>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <button type="button" id="btnShareNative" class="btn-copy-clipboard" style="min-height: 42px; font-size: 0.88rem;">
+                  📲 Share Tab
+                </button>
+                <button type="button" id="btnOpenWhatsApp" class="btn-whatsapp" style="min-height: 42px; font-size: 0.88rem;">
+                  <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.56 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.26-1.14l-.3-.18-3.16.83.84-3.08-.2-.32a8.163 8.163 0 0 1-1.25-4.35c0-4.51 3.67-8.18 8.18-8.18zm4.56 11.59c-.25-.13-1.48-.73-1.71-.81-.23-.09-.4-.13-.56.13-.17.25-.65.81-.8 1-.15.19-.3.21-.55.09-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.3.38-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.78 2.71 4.31 3.8.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.3z"/></svg>
+                  WhatsApp
+                </button>
+              </div>
+
+              <!-- Collapsible Options (Payment info, sales tax adjustment, rounding) -->
+              <details style="margin-top: 0.5rem; background: var(--bg-input); padding: 0.6rem 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <summary style="font-size: 0.8rem; color: var(--text-secondary); cursor: pointer; font-weight: 600;">
+                  ⚙️ Options (Venmo handle, Tax rate, Rounding) ▾
+                </summary>
+                <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <div class="form-group">
+                    <label for="paymentInfoInput" class="form-label">Payment handle for summary (optional)</label>
+                    <input type="text" id="paymentInfoInput" class="input-text" placeholder="e.g. Venmo: @username or Zelle: 555-0123">
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div class="form-group">
+                      <label for="taxPercentInput" class="form-label">Sales Tax (%)</label>
+                      <input type="number" id="taxPercentInput" class="input-number" value="8.5" min="0" step="any">
+                    </div>
+                    <div class="form-group">
+                      <label for="roundingSelect" class="form-label">Rounding</label>
+                      <select id="roundingSelect" class="currency-select" style="width: 100%;">
+                        <option value="none">Exact cents</option>
+                        <option value="ceil">Round up ($)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="whatsapp-preview-box" id="whatsappPreviewText"></div>
+                </div>
+              </details>
+            </div>
           </div>
         </section>
 
@@ -515,114 +510,47 @@
 
     </div>
 
-    <!-- Amazon Associates Recommendations Section -->
-    <section class="amazon-affiliate-section" id="amazonProducts">
-      <div class="section-badge">🛍️ Recomendados para Salidas & Comensales</div>
-      <h2 class="section-title">Accesorios & Herramientas para la Sobremesa</h2>
-      <p class="section-subtitle">
-        Selección de accesorios para salidas en restaurantes, organizadores de cuentas y entretenimiento para reuniones con amigos de nuestra red de Afiliados de Amazon.
-      </p>
-
-      <div class="products-grid">
-        <!-- Product 1: Waiter Book / Bill Organizer -->
-        <article class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://m.media-amazon.com/images/I/71wZgW2rGPL.jpg" alt="Organizador de Cuentas y Libreta de Restaurante" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
-          </div>
-          <span class="product-category">Organización & Salidas</span>
-          <h3 class="product-title">Organizador de Tickets y Billetera para Cuentas</h3>
-          <p class="product-desc">Porta cuentas compacto con bolsillos con cierre, compartimento para tickets y libreta para no perder ningún comprobante.</p>
-          <a href="https://www.amazon.com/dp/B08P8G9NZ2?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
-            Ver en Amazon &rarr;
-          </a>
-        </article>
-
-        <!-- Product 2: Magnetic Power Bank -->
-        <article class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://m.media-amazon.com/images/I/61sJbK2Wf8L.jpg" alt="Anker Batería Externa Portátil Magnética" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
-          </div>
-          <span class="product-category">Batería & Viaje</span>
-          <h3 class="product-title">Anker Batería Externa Portátil Magnética 10,000mAh</h3>
-          <p class="product-desc">Que nadie se quede sin batería al pagar o transferir. Carga inalámbrica rápida y ultra-compacta para llevar en cualquier bolsillo.</p>
-          <a href="https://www.amazon.com/dp/B099F558LG?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
-            Ver en Amazon &rarr;
-          </a>
-        </article>
-
-        <!-- Product 3: Party Social Card Game -->
-        <article class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://m.media-amazon.com/images/I/71K7s21Uq4L.jpg" alt="Taco Gato Cabra Queso Pizza Juego de Mesa" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
-          </div>
-          <span class="product-category">Juegos de Sobremesa</span>
-          <h3 class="product-title">Taco Gato Cabra Queso Pizza — Juego de Cartas</h3>
-          <p class="product-desc">El juego de cartas adictivo y ultra-divertido para animar la sobremesa mientras llega la cuenta. Partidas de 10 minutos para toda la mesa.</p>
-          <a href="https://www.amazon.com/dp/B07P61T6NL?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
-            Ver en Amazon &rarr;
-          </a>
-        </article>
-
-        <!-- Product 4: Pocket Calculator & Stylus -->
-        <article class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://m.media-amazon.com/images/I/61z+F3J2lEL.jpg" alt="Calculadora de Bolsillo con Pizarra LCD" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
-          </div>
-          <span class="product-category">Herramientas</span>
-          <h3 class="product-title">Calculadora Plegable de Bolsillo con Pizarra LCD</h3>
-          <p class="product-desc">Diseño plegable ultra-ligero con tableta para notas rápidas de comensales, operaciones instantáneas y pantalla de protección ocular.</p>
-          <a href="https://www.amazon.com/dp/B09G9T7T8Y?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
-            Ver en Amazon &rarr;
-          </a>
-        </article>
-      </div>
-
-      <p class="affiliate-disclaimer">
-        Como participante del Programa de Afiliados de Amazon, este sitio genera ingresos por compras adscritas que cumplen los requisitos aplicables, sin costo adicional para ti.
-      </p>
-    </section>
-
     <!-- SEO Rich Features & Benefits Section -->
     <section class="seo-section">
-      <div class="section-badge">💡 Guía & Preguntas Frecuentes</div>
-      <h2 class="section-title">¿Cómo Dividir una Cuenta de Restaurante Fácilmente?</h2>
+      <div class="section-badge">💡 Guide & Frequently Asked Questions</div>
+      <h2 class="section-title">How to Split a Restaurant Bill Fairly (Without the Drama)</h2>
       <p class="section-subtitle">
-        Descubre por qué calcular las propinas de manera proporcional es la forma más honesta de pagar en grupo y cómo TabSnap te ahorra discusiones incómodas.
+        Learn why proportional tipping is the fairest way to divide group checks, and how TabSnap eliminates awkward dining bill disputes.
       </p>
 
       <div class="faq-grid">
         <details class="faq-item" open>
-          <summary class="faq-summary">¿Por qué es mejor la propina proporcional que dividir en partes iguales?</summary>
+          <summary class="faq-summary">Why is proportional tipping fairer than splitting evenly?</summary>
           <div class="faq-content">
-            Cuando se divide la cuenta simplemente entre el número de personas (50/50 o en partes iguales), quien pidió un platillo económico o agua termina subsidiando a quien consumió cortes caros o botellas de vino. TabSnap distribuye la propina y los impuestos en porcentaje directo a lo que consumió cada individuo. De esa manera, todos aportan una propina justa según su propio pedido.
+            When a table simply splits a check evenly (e.g. 50/50 or divided by the head count), someone who ordered a modest side salad and tap water ends up paying for someone else's ribeye steak, appetizers, or craft cocktails. TabSnap calculates tip and sales tax as an exact proportional percentage of each diner's actual food and beverage subtotal. That way, high spenders pay their rightful share of tip and tax, and lighter diners are never unfairly overcharged.
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-summary">¿Cómo se reparten los platillos compartidos?</summary>
+          <summary class="faq-summary">How are shared appetizers or pitchers divided?</summary>
           <div class="faq-content">
-            Si 3 personas de una mesa de 6 pidieron una pizza o una ronda de cervezas, solo tienes que marcar a esas 3 personas en el selector. TabSnap dividirá el costo exacto de ese platillo entre las personas seleccionadas y sumará su fracción correspondiente al subtotal de cada una.
+            If 3 people at a table of 6 share spinach dip or a round of beers, simply select those 3 diners when adding the item. TabSnap divides the item cost equally among only those diners, and applies sales tax and tip strictly to their portion of that item.
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-summary">¿Cómo comparto el desglose por WhatsApp?</summary>
+          <summary class="faq-summary">How does sales tax work with tip calculation?</summary>
           <div class="faq-content">
-            Al finalizar tu mesa, presiona el botón verde "Copiar Resumen para WhatsApp". Se generará un texto optimizado con emojis, formato legible en negritas, subtotales, propina, total individual y tus datos bancarios para transferencias (SPEI, Bizum, Zelle, CLABE). Solo pégalo en el chat grupal y listo.
+            In the United States, restaurant tips are standardly calculated on the pre-tax food and beverage subtotal, and state/local sales tax is added on top. TabSnap follows this standard convention, allowing you to configure your local sales tax rate (e.g. 8.5%) and distributing both sales tax and tip proportionally across each diner's order.
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-summary">¿Mis datos se guardan o quedan registrados?</summary>
+          <summary class="faq-summary">How do I request payments through Venmo, Zelle, or Cash App?</summary>
           <div class="faq-content">
-            No recopilamos ni enviamos datos a ningún servidor externo. TabSnap utiliza la tecnología nativa de LocalStorage en tu navegador para que no pierdas tus cálculos si recargas la pestaña o cierras el celular. Tus datos pertenecen únicamente a tu dispositivo.
+            Enter your payment handle in the optional payment info field (e.g., "Venmo: @alex-smith"). When you finish the bill, tap "Copy Summary for Venmo & Messages". You'll get an itemized breakdown with bold text, clean emojis, diner totals, and your payment info ready to paste into your group text or payment app.
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-summary">¿Puedo usar TabSnap sin conexión a internet?</summary>
+          <summary class="faq-summary">Is my dining or financial data stored on any server?</summary>
           <div class="faq-content">
-            Sí. TabSnap cuenta con un Service Worker integrado que almacena en caché la aplicación para que funcione de manera offline en cualquier restaurante o cafetería, incluso con señal débil o intermitente.
+            No. TabSnap runs 100% in your browser. No receipts, diner names, or payment details are ever uploaded or transmitted to any server. Your session is saved securely in your browser's LocalStorage so you never lose your progress if your phone screen locks.
           </div>
         </details>
       </div>
@@ -631,14 +559,14 @@
   </main>
 
   <!-- Mobile Sticky Bottom Action Bar -->
-  <aside id="mobileStickyBar" class="mobile-sticky-bar" aria-label="Resumen rápido">
+  <aside id="mobileStickyBar" class="mobile-sticky-bar" aria-label="Quick summary">
     <div class="mobile-sticky-content">
       <div class="mobile-sticky-totals">
-        <span class="mobile-sticky-label">Total Mesa</span>
+        <span class="mobile-sticky-label">Table Total</span>
         <span id="mobileGrandTotalDisplay" class="mobile-sticky-amount">$0.00</span>
       </div>
-      <button type="button" id="btnMobileWhatsApp" class="btn-mobile-whatsapp">
-        <span>📋</span> WhatsApp
+      <button type="button" id="btnMobileShare" class="btn-mobile-share">
+        <span>📋</span> Copy Tab
       </button>
     </div>
   </aside>
@@ -646,13 +574,13 @@
   <!-- Confirm Reset Modal -->
   <div id="resetModalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
     <div class="modal-card">
-      <h3 id="resetModalTitle" class="modal-title">¿Limpiar la mesa?</h3>
+      <h3 id="resetModalTitle" class="modal-title">Clear the table?</h3>
       <p class="modal-desc">
-        Esta acción borrará todos los comensales, platos y ajustes actuales de la mesa. ¿Deseas comenzar una nueva cuenta desde cero?
+        This will clear all diners, items, and settings. Are you sure you want to start a fresh check?
       </p>
       <div class="modal-actions">
-        <button type="button" id="btnCancelReset" class="btn-ghost">Cancelar</button>
-        <button type="button" id="btnConfirmReset" class="btn-ghost danger">Sí, limpiar todo</button>
+        <button type="button" id="btnCancelReset" class="btn-ghost">Cancel</button>
+        <button type="button" id="btnConfirmReset" class="btn-ghost danger">Yes, clear all</button>
       </div>
     </div>
   </div>
@@ -669,14 +597,14 @@
             <span class="brand__text" style="font-size:1.3rem;">TabSnap</span>
           </div>
           <p class="footer__brand-p">
-            Calculadora inteligente de cuentas de restaurantes y gastos grupales. Parte de la suite de herramientas web de ecn-apps.
+            Smart, fair itemized restaurant bill splitter with proportional tipping and shared dish allocation. Part of the ecn-apps web utilities suite.
           </p>
         </div>
 
         <div>
-          <h4 class="footer__col-title">Herramientas del Ecosistema</h4>
+          <h4 class="footer__col-title">Ecosystem Tools</h4>
           <ul class="footer__links">
-            <li><a href="https://rollypop.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">RollyPop — Ruleta de Decisiones</a></li>
+            <li><a href="https://rollypop.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">RollyPop — Decision Wheel</a></li>
             <li><a href="https://bgremover.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Background Remover</a></li>
             <li><a href="https://color-picker.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Color Picker & Palette</a></li>
             <li><a href="https://passgen.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Password Generator</a></li>
@@ -686,18 +614,19 @@
         </div>
 
         <div>
-          <h4 class="footer__col-title">Plataforma & SEO</h4>
+          <h4 class="footer__col-title">Platform & SEO</h4>
           <ul class="footer__links">
             <li><a href="https://tabsnap.ecn-apps.com/sitemap.xml" class="footer__link">Sitemap XML</a></li>
-            <li><a href="https://tabsnap.ecn-apps.com/feed.xml" class="footer__link">RSS Feed</a></li>
+            <li><a href="https://tabsnap.ecn-apps.com/feed.xml" class="footer__link">RSS Feed (feed.xml)</a></li>
+            <li><a href="https://tabsnap.ecn-apps.com/rss.xml" class="footer__link">RSS Feed (rss.xml)</a></li>
             <li><a href="https://tabsnap.ecn-apps.com/robots.txt" class="footer__link">Robots.txt</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer__bottom">
-        <span>© 2026 ecn-apps. Todos los derechos reservados. TabSnap es un producto de ecn-apps.com.</span>
-        <span>Desarrollado por <a href="https://ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">ecn-apps.com</a></span>
+        <span>© 2026 ecn-apps. All rights reserved. TabSnap is a product of ecn-apps.com.</span>
+        <span>Built by <a href="https://ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">ecn-apps.com</a></span>
       </div>
     </div>
   </footer>
@@ -705,7 +634,5 @@
   <!-- Application Logic -->
   <script defer src="/main.js"></script>
 
-  <!-- Amazon Associates Dynamic Engine (ecn-apps ecosystem) -->
-  <script defer src="https://ecn-apps.com/js/amazon-affiliate.js?v=3.0"></script>
 </body>
 </html>

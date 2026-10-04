@@ -6,7 +6,7 @@
     <description>Smart, private itemized restaurant bill calculator. Split dishes, calculate proportional tips &amp; sales tax, and copy an itemized breakdown ready for Venmo, iMessage, and WhatsApp.</description>
     <language>en-US</language>
     <lastBuildDate>Sat, 03 Oct 2026 21:00:00 GMT</lastBuildDate>
-    <atom:link href="https://tabsnap.ecn-apps.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://tabsnap.ecn-apps.com/rss.xml" rel="self" type="application/rss+xml"/>
 
     <item>
       <title>TabSnap 1.0 Launch — Itemized Bill Splitting &amp; Proportional Tipping</title>

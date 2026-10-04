@@ -1,19 +1,21 @@
 {
   "name": "tabsnap",
   "version": "1.0.0",
-  "description": "Calculadora inteligente para dividir cuentas de restaurantes, comidas grupales y tickets con propinas proporcionales, desglose por persona y copia a WhatsApp. 100% privado en LocalStorage.",
+  "description": "Smart, fair itemized restaurant bill splitter with proportional tipping, sales tax, shared dishes, and export to Venmo, Messages, and WhatsApp. 100% private in LocalStorage.",
   "main": "main.js",
   "scripts": {
     "start": "npx serve ."
   },
   "keywords": [
-    "dividir-cuenta",
-    "split-bill",
-    "calculadora-restaurante",
-    "ticket-split",
-    "propina-proporcional",
-    "whatsapp-bill-splitter",
-    "cuentas-grupales"
+    "bill-splitter",
+    "split-the-bill",
+    "split-check",
+    "restaurant-calculator",
+    "itemized-bill-splitter",
+    "proportional-tip",
+    "fair-tip-calculator",
+    "venmo-bill-splitter",
+    "group-dining"
   ],
   "author": "ecn-apps",
   "license": "MIT"

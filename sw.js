@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tabsnap-v1';
+const CACHE_NAME = 'tabsnap-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -6,7 +6,9 @@ const ASSETS_TO_CACHE = [
   '/main.js',
   '/favicon.svg',
   '/favicon.ico',
-  '/site.webmanifest'
+  '/site.webmanifest',
+  '/feed.xml',
+  '/rss.xml'
 ];
 
 self.addEventListener('install', (event) => {

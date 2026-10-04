@@ -1,7 +1,7 @@
 {
-  "name": "TabSnap — Calculadora de Cuentas Compartidas",
+  "name": "TabSnap — Itemized Restaurant Bill Splitter",
   "short_name": "TabSnap",
-  "description": "Divide cuentas de restaurantes, salidas con amigos y tickets grupales con propinas e impuestos proporcionales. Copia a WhatsApp y 100% privado en tu navegador.",
+  "description": "Fair restaurant bill splitter with proportional tips, sales tax, shared dishes, and exports for Venmo, Messages, and WhatsApp. 100% private in your browser.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#061313",

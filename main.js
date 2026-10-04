@@ -1,6 +1,7 @@
 /**
  * TabSnap — Core Application Logic
- * Fast, fair, and private restaurant bill splitter with proportional tipping & WhatsApp export.
+ * Fast, fair, and private restaurant bill splitter with proportional tipping, sales tax & export.
+ * Focused on the US dining market with support for Venmo, iMessage, and WhatsApp.
  */
 
 (() => {
@@ -13,7 +14,7 @@
     '#6366f1', '#14b8a6', '#d946ef', '#e11d48'
   ];
 
-  const STORAGE_KEY = 'tabsnap_state_v1';
+  const STORAGE_KEY = 'tabsnap_state_v3';
   const THEME_KEY = 'tabsnap_theme';
 
   // Application State
@@ -23,10 +24,10 @@
     settings: {
       currency: '$',
       tipType: 'percent', // 'percent' | 'custom_fixed'
-      tipPercent: 15,
+      tipPercent: 18,
       tipFixed: 0,
-      taxIncluded: true,
-      taxPercent: 16,
+      taxIncluded: false, // In the US, sales tax is added on top of food & drink subtotal
+      taxPercent: 8.5,
       taxFixed: 0,
       rounding: 'none', // 'none' | 'ceil'
       paymentInfo: ''
@@ -43,6 +44,7 @@
     themeIcon: document.getElementById('themeIcon'),
     btnResetTable: document.getElementById('btnResetTable'),
     btnDemoTable: document.getElementById('btnDemoTable'),
+    btnQuickDemo: document.getElementById('btnQuickDemo'),
     currencySelect: document.getElementById('currencySelect'),
 
     // Participants
@@ -78,16 +80,16 @@
     tableGrandTotalDisplay: document.getElementById('tableGrandTotalDisplay'),
     personResultsList: document.getElementById('personResultsList'),
 
-    // WhatsApp & Export Actions
-    btnCopyWhatsApp: document.getElementById('btnCopyWhatsApp'),
+    // Export & Sharing Actions
+    btnCopySummary: document.getElementById('btnCopySummary'),
+    btnShareNative: document.getElementById('btnShareNative'),
     btnOpenWhatsApp: document.getElementById('btnOpenWhatsApp'),
-    btnCopySimpleText: document.getElementById('btnCopySimpleText'),
     whatsappPreviewText: document.getElementById('whatsappPreviewText'),
 
     // Mobile Sticky Bar
     mobileStickyBar: document.getElementById('mobileStickyBar'),
     mobileGrandTotalDisplay: document.getElementById('mobileGrandTotalDisplay'),
-    btnMobileWhatsApp: document.getElementById('btnMobileWhatsApp'),
+    btnMobileShare: document.getElementById('btnMobileShare'),
 
     // Modal & Toast
     resetModalOverlay: document.getElementById('resetModalOverlay'),
@@ -116,6 +118,33 @@
     }
   }
 
+  function initCleanState() {
+    state.participants = [];
+    state.items = [];
+    state.settings = {
+      currency: '$',
+      tipType: 'percent',
+      tipPercent: 18,
+      tipFixed: 0,
+      taxIncluded: false,
+      taxPercent: 8.5,
+      taxFixed: 0,
+      rounding: 'none',
+      paymentInfo: ''
+    };
+    selectedAssigneeIds.clear();
+
+    if (el.currencySelect) el.currencySelect.value = '$';
+    if (el.taxToggleCheckbox) el.taxToggleCheckbox.checked = true;
+    if (el.taxPercentInput) el.taxPercentInput.value = 8.5;
+    if (el.roundingSelect) el.roundingSelect.value = 'none';
+    if (el.paymentInfoInput) el.paymentInfoInput.value = '';
+
+    updateTaxInputVisibility();
+    syncTipUI();
+    saveState();
+  }
+
   function loadState() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -130,7 +159,7 @@
           // Sync UI inputs with loaded settings
           if (el.currencySelect) el.currencySelect.value = state.settings.currency || '$';
           if (el.taxToggleCheckbox) el.taxToggleCheckbox.checked = !state.settings.taxIncluded;
-          if (el.taxPercentInput) el.taxPercentInput.value = state.settings.taxPercent || 16;
+          if (el.taxPercentInput) el.taxPercentInput.value = state.settings.taxPercent !== undefined ? state.settings.taxPercent : 8.5;
           if (el.roundingSelect) el.roundingSelect.value = state.settings.rounding || 'none';
           if (el.paymentInfoInput) el.paymentInfoInput.value = state.settings.paymentInfo || '';
           updateTaxInputVisibility();
@@ -142,61 +171,73 @@
       console.warn('TabSnap: LocalStorage load failed, starting fresh', e);
     }
 
-    // Default sample if completely fresh
-    loadSampleData();
+    // Default: start with a completely clean interface (no preloaded demo)
+    initCleanState();
   }
 
   function loadSampleData() {
     state.participants = [
-      { id: 'p_1', name: 'Carlos', color: AVATAR_COLORS[0] },
-      { id: 'p_2', name: 'Sofía', color: AVATAR_COLORS[1] },
-      { id: 'p_3', name: 'Mateo', color: AVATAR_COLORS[2] },
-      { id: 'p_4', name: 'Valeria', color: AVATAR_COLORS[3] }
+      { id: 'p_1', name: 'Alex', color: AVATAR_COLORS[0] },
+      { id: 'p_2', name: 'Jordan', color: AVATAR_COLORS[1] },
+      { id: 'p_3', name: 'Taylor', color: AVATAR_COLORS[2] },
+      { id: 'p_4', name: 'Sam', color: AVATAR_COLORS[3] }
     ];
 
     state.items = [
       {
         id: 'i_1',
-        name: 'Guacamole al centro con totopos',
-        price: 180,
+        name: 'Spinach & Artichoke Dip',
+        price: 14.50,
         quantity: 1,
         assignedTo: ['p_1', 'p_2', 'p_3', 'p_4']
       },
       {
         id: 'i_2',
-        name: 'Hamburguesa con papas',
-        price: 240,
+        name: 'Bacon Cheeseburger & Truffle Fries',
+        price: 22.00,
         quantity: 1,
         assignedTo: ['p_1']
       },
       {
         id: 'i_3',
-        name: 'Ensalada César con salmón',
-        price: 260,
+        name: 'Grilled Salmon Caesar Salad',
+        price: 24.50,
         quantity: 1,
         assignedTo: ['p_2']
       },
       {
         id: 'i_4',
-        name: 'Pizza para compartir (mitad y mitad)',
-        price: 360,
+        name: 'Margherita Wood-Fired Pizza',
+        price: 21.00,
         quantity: 1,
         assignedTo: ['p_3', 'p_4']
       },
       {
         id: 'i_5',
-        name: 'Cervezas artesanales (Ronda 4x)',
-        price: 90,
+        name: 'Draft Craft IPAs',
+        price: 8.50,
         quantity: 4,
         assignedTo: ['p_1', 'p_2', 'p_3', 'p_4']
       }
     ];
 
-    state.settings.tipPercent = 15;
+    state.settings.tipPercent = 18;
     state.settings.tipType = 'percent';
-    state.settings.taxIncluded = true;
+    state.settings.taxIncluded = false;
+    state.settings.taxPercent = 8.5;
     state.settings.currency = '$';
-    state.settings.paymentInfo = 'Transferir por SPEI / CLABE: 012180015498765432';
+    state.settings.rounding = 'none';
+    state.settings.paymentInfo = 'Venmo: @alex-smith | Zelle: (555) 234-5678';
+
+    // Sync input controls with sample state
+    if (el.currencySelect) el.currencySelect.value = '$';
+    if (el.taxToggleCheckbox) el.taxToggleCheckbox.checked = true;
+    if (el.taxPercentInput) el.taxPercentInput.value = 8.5;
+    if (el.paymentInfoInput) el.paymentInfoInput.value = state.settings.paymentInfo;
+    if (el.roundingSelect) el.roundingSelect.value = 'none';
+
+    updateTaxInputVisibility();
+    syncTipUI();
 
     // Auto-select all assignees in new item form
     selectedAssigneeIds = new Set(state.participants.map(p => p.id));
@@ -275,7 +316,7 @@
       }
     });
 
-    // Tip Calculation
+    // Tip Calculation (customarily calculated on pre-tax subtotal)
     let tableTip = 0;
     if (state.settings.tipType === 'percent') {
       const tipPct = parseFloat(state.settings.tipPercent) || 0;
@@ -284,7 +325,7 @@
       tableTip = parseFloat(state.settings.tipFixed) || 0;
     }
 
-    // Tax Calculation (only added if taxIncluded === false)
+    // Sales Tax Calculation (added on top when taxIncluded === false)
     let tableTax = 0;
     if (!state.settings.taxIncluded) {
       const taxPct = parseFloat(state.settings.taxPercent) || 0;
@@ -292,7 +333,7 @@
       tableTax = (tableSubtotal * (taxPct / 100)) + taxFixed;
     }
 
-    // Proportional Assignment
+    // Proportional Assignment to each diner
     let sumAssignedTotals = 0;
     const roundingMode = state.settings.rounding;
 
@@ -335,7 +376,7 @@
   }
 
   function formatMoney(amount, currency = state.settings.currency || '$') {
-    return `${currency}${amount.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    return `${currency}${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
 
   /* ==========================================================================
@@ -347,17 +388,45 @@
     renderAssigneePills();
     renderItemsList();
     renderCalculations();
+    updateStepVisibility();
+  }
+
+  function updateStepVisibility() {
+    const hasParticipants = state.participants.length > 0;
+    const hasItems = state.items.length > 0;
+
+    const step2LockedHint = document.getElementById('step2LockedHint');
+    const step2Content = document.getElementById('step2Content');
+    if (step2LockedHint && step2Content) {
+      step2LockedHint.style.display = hasParticipants ? 'none' : 'block';
+      step2Content.style.display = hasParticipants ? 'block' : 'none';
+    }
+
+    const step3LockedHint = document.getElementById('step3LockedHint');
+    const step3Content = document.getElementById('step3Content');
+    if (step3LockedHint && step3Content) {
+      step3LockedHint.style.display = hasItems ? 'none' : 'block';
+      step3Content.style.display = hasItems ? 'block' : 'none';
+    }
+
+    const taxRateSummary = document.getElementById('taxRateSummary');
+    if (taxRateSummary) {
+      taxRateSummary.textContent = `${state.settings.taxPercent || 8.5}%`;
+    }
   }
 
   function renderParticipants() {
     const count = state.participants.length;
-    el.participantsCountBadge.textContent = `${count} ${count === 1 ? 'comensal' : 'comensales'}`;
+    el.participantsCountBadge.textContent = `${count} ${count === 1 ? 'diner' : 'diners'}`;
 
     if (count === 0) {
       el.participantsList.innerHTML = `
         <div class="empty-state">
           <span class="empty-state__icon">👥</span>
-          <p class="empty-state__text">Agrega a los integrantes de la mesa para empezar a repartir.</p>
+          <p class="empty-state__text">Add diners at the table to start splitting items.</p>
+          <button type="button" class="btn-ghost btn-load-demo-inline" style="margin-top: 0.65rem; color: var(--accent-primary); border-color: var(--accent-primary); font-weight: 600; cursor: pointer;">
+            ✨ Load Example Check
+          </button>
         </div>
       `;
       return;
@@ -369,7 +438,7 @@
         <div class="participant-chip" data-id="${p.id}">
           <span class="avatar-badge" style="background-color: ${p.color};">${escapeHtml(initial)}</span>
           <span class="participant-name-text">${escapeHtml(p.name)}</span>
-          <button type="button" class="chip-remove-btn" title="Eliminar a ${escapeHtml(p.name)}" aria-label="Eliminar ${escapeHtml(p.name)}">
+          <button type="button" class="chip-remove-btn" title="Remove ${escapeHtml(p.name)}" aria-label="Remove ${escapeHtml(p.name)}">
             &times;
           </button>
         </div>
@@ -381,13 +450,13 @@
     if (state.participants.length === 0) {
       el.assigneePillsGrid.innerHTML = `
         <span style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;">
-          Agrega comensales arriba para asignar platos.
+          Add diners above to assign items.
         </span>
       `;
       return;
     }
 
-    // If new participants added and none selected, or to preserve valid selections
+    // Preserve valid selections
     const validIds = new Set(state.participants.map(p => p.id));
     selectedAssigneeIds = new Set([...selectedAssigneeIds].filter(id => validIds.has(id)));
 
@@ -411,13 +480,13 @@
 
   function renderItemsList() {
     const count = state.items.length;
-    el.itemsCountBadge.textContent = `${count} ${count === 1 ? 'ítem' : 'ítems'}`;
+    el.itemsCountBadge.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
 
     if (count === 0) {
       el.itemsList.innerHTML = `
         <div class="empty-state">
           <span class="empty-state__icon">🧾</span>
-          <p class="empty-state__text">Aún no hay consumos cargados. Ingresa los platos o bebidas del ticket.</p>
+          <p class="empty-state__text">No items added yet. Enter items from the receipt.</p>
         </div>
       `;
       return;
@@ -435,13 +504,13 @@
 
       let splitLabel = '';
       if (assignees.length === 0) {
-        splitLabel = '<span style="color: var(--danger-color);">⚠️ Sin asignar</span>';
+        splitLabel = '<span style="color: var(--danger-color);">⚠️ Unassigned</span>';
       } else if (isEveryone) {
-        splitLabel = `Entre toda la mesa (${formatMoney(total / assignees.length, currency)} c/u)`;
+        splitLabel = `Split among everyone (${formatMoney(total / assignees.length, currency)} each)`;
       } else if (assignees.length === 1) {
-        splitLabel = `Solo ${escapeHtml(assignees[0].name)}`;
+        splitLabel = `Only ${escapeHtml(assignees[0].name)}`;
       } else {
-        splitLabel = `${assignees.length} personas (${formatMoney(total / assignees.length, currency)} c/u)`;
+        splitLabel = `${assignees.length} people (${formatMoney(total / assignees.length, currency)} each)`;
       }
 
       const avatarStack = assignees.slice(0, 4).map(a => `
@@ -466,7 +535,7 @@
             <div>
               <span class="item-total-price">${formatMoney(total, currency)}</span>
             </div>
-            <button type="button" class="btn-item-delete" title="Eliminar ítem" aria-label="Eliminar ${escapeHtml(item.name)}">
+            <button type="button" class="btn-item-delete" title="Delete item" aria-label="Delete ${escapeHtml(item.name)}">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -485,7 +554,7 @@
     // Table Totals Card
     el.tableSubtotalDisplay.textContent = formatMoney(calc.tableSubtotal, currency);
     el.tableTipDisplay.textContent = formatMoney(calc.tableTip, currency);
-    el.tableTaxDisplay.textContent = state.settings.taxIncluded ? 'Incluido' : formatMoney(calc.tableTax, currency);
+    el.tableTaxDisplay.textContent = state.settings.taxIncluded ? 'Included' : formatMoney(calc.tableTax, currency);
     el.tableGrandTotalDisplay.textContent = formatMoney(calc.tableGrandTotal, currency);
 
     // Mobile sticky bar
@@ -497,7 +566,7 @@
     if (calc.participantsList.length === 0) {
       el.personResultsList.innerHTML = `
         <div class="empty-state">
-          <p class="empty-state__text">Sin participantes registrados.</p>
+          <p class="empty-state__text">No diners added yet.</p>
         </div>
       `;
     } else {
@@ -520,9 +589,9 @@
                 <div>
                   <h4 class="person-name">${escapeHtml(person.name)}</h4>
                   <div class="person-summary-row">
-                    <span class="person-summary-pill">Consumo: ${formatMoney(person.subtotal, currency)}</span>
-                    <span class="person-summary-pill">Propina: ${formatMoney(person.tip, currency)}</span>
-                    ${!state.settings.taxIncluded ? `<span class="person-summary-pill">Impuestos: ${formatMoney(person.tax, currency)}</span>` : ''}
+                    <span class="person-summary-pill">Subtotal: ${formatMoney(person.subtotal, currency)}</span>
+                    <span class="person-summary-pill">Tip: ${formatMoney(person.tip, currency)}</span>
+                    ${!state.settings.taxIncluded ? `<span class="person-summary-pill">Tax: ${formatMoney(person.tax, currency)}</span>` : ''}
                   </div>
                 </div>
               </div>
@@ -533,72 +602,73 @@
 
             <div class="person-details-toggle">
               <button type="button" class="btn-ghost btn-toggle-items" style="padding: 0.2rem 0.5rem; font-size: 0.78rem;">
-                Ver detalle (${person.itemsDetailed.length} platos) ▾
+                View items (${person.itemsDetailed.length}) ▾
               </button>
-              <button type="button" class="btn-copy-person" data-person-name="${escapeHtml(person.name)}" title="Copiar desglose individual">
-                📋 Copiar
+              <button type="button" class="btn-copy-person" data-person-name="${escapeHtml(person.name)}" title="Copy diner breakdown">
+                📋 Copy
               </button>
             </div>
 
             <div class="person-items-breakdown">
-              ${person.itemsDetailed.length > 0 ? itemsRows : '<p style="color:var(--text-muted);">Sin consumos asignados.</p>'}
+              ${person.itemsDetailed.length > 0 ? itemsRows : '<p style="color:var(--text-muted);">No items assigned.</p>'}
             </div>
           </article>
         `;
       }).join('');
     }
 
-    // Update WhatsApp live preview
-    const whatsappText = generateWhatsAppMessage(calc);
+    // Update live formatted preview
+    const shareText = generateShareMessage(calc);
     if (el.whatsappPreviewText) {
-      el.whatsappPreviewText.textContent = whatsappText;
+      el.whatsappPreviewText.textContent = shareText;
     }
   }
 
   /* ==========================================================================
-     WhatsApp Message Builder
+     Share & Message Builders (Venmo / iMessage / SMS / WhatsApp)
      ========================================================================== */
 
-  function generateWhatsAppMessage(calc) {
+  function generateShareMessage(calc) {
     const currency = calc.currency;
     const lines = [];
 
-    lines.push('🧾 *TabSnap — Cuenta Dividida*');
-    lines.push(`🍽️ *Total Mesa:* ${formatMoney(calc.tableGrandTotal, currency)}`);
-    
+    lines.push('🧾 *TabSnap — Bill Breakdown*');
+    lines.push(`🍽️ *Table Total:* ${formatMoney(calc.tableGrandTotal, currency)}`);
+
     let subBreakdown = `💵 *Subtotal:* ${formatMoney(calc.tableSubtotal, currency)}`;
     if (calc.tableTip > 0) {
-      const tipLabel = state.settings.tipType === 'percent' ? `${state.settings.tipPercent}%` : 'fija';
-      subBreakdown += ` | *Propina (${tipLabel}):* ${formatMoney(calc.tableTip, currency)}`;
+      const tipLabel = state.settings.tipType === 'percent' ? `${state.settings.tipPercent}%` : 'fixed';
+      subBreakdown += ` | *Tip (${tipLabel}):* ${formatMoney(calc.tableTip, currency)}`;
     }
     if (!state.settings.taxIncluded && calc.tableTax > 0) {
-      subBreakdown += ` | *Impuesto:* ${formatMoney(calc.tableTax, currency)}`;
+      const taxLabel = `${state.settings.taxPercent}%`;
+      subBreakdown += ` | *Tax (${taxLabel}):* ${formatMoney(calc.tableTax, currency)}`;
     }
     lines.push(subBreakdown);
-    lines.push(`👥 *Comensales:* ${calc.participantsList.length} personas`);
+    lines.push(`👥 *Diners:* ${calc.participantsList.length} people`);
     lines.push('----------------------------------------');
 
     calc.participantsList.forEach(p => {
       lines.push(`👤 *${p.name}:* ${formatMoney(p.total, currency)}`);
       if (p.itemsDetailed.length > 0) {
         p.itemsDetailed.forEach(it => {
-          const splitText = it.sharedWithCount > 1 ? ` (1/${it.sharedWithCount} de ${formatMoney(it.totalItemPrice, currency)})` : '';
+          const splitText = it.sharedWithCount > 1 ? ` (1/${it.sharedWithCount} of ${formatMoney(it.totalItemPrice, currency)})` : '';
           lines.push(`   • ${it.name}${splitText}: ${formatMoney(it.shareAmount, currency)}`);
         });
       }
-      lines.push(`   • Propina proporcional: ${formatMoney(p.tip, currency)}`);
+      lines.push(`   • Proportional Tip: ${formatMoney(p.tip, currency)}`);
       if (!state.settings.taxIncluded && p.tax > 0) {
-        lines.push(`   • Impuestos proporcionales: ${formatMoney(p.tax, currency)}`);
+        lines.push(`   • Proportional Tax: ${formatMoney(p.tax, currency)}`);
       }
       lines.push('');
     });
 
     lines.push('----------------------------------------');
     if (state.settings.paymentInfo && state.settings.paymentInfo.trim()) {
-      lines.push(`💳 *Datos para transferir:*\n${state.settings.paymentInfo.trim()}`);
+      lines.push(`💳 *Payment Info:*\n${state.settings.paymentInfo.trim()}`);
       lines.push('');
     }
-    lines.push('✨ Calculado al instante con https://tabsnap.ecn-apps.com');
+    lines.push('✨ Split instantly with https://tabsnap.ecn-apps.com');
 
     return lines.join('\n');
   }
@@ -610,25 +680,25 @@
     if (!person) return '';
 
     const lines = [];
-    lines.push(`🧾 *TabSnap — Tu consumo individual*`);
-    lines.push(`👤 *Hola ${person.name}, tu total es:* ${formatMoney(person.total, currency)}`);
+    lines.push(`🧾 *TabSnap — Your Tab Breakdown*`);
+    lines.push(`👤 *Hi ${person.name}, your total is:* ${formatMoney(person.total, currency)}`);
     lines.push('');
-    lines.push('🍽️ *Detalle de tus platos:*');
+    lines.push('🍽️ *Your items:*');
     person.itemsDetailed.forEach(it => {
       const splitText = it.sharedWithCount > 1 ? ` (1/${it.sharedWithCount})` : '';
       lines.push(` • ${it.name}${splitText}: ${formatMoney(it.shareAmount, currency)}`);
     });
-    lines.push(` • Subtotal consumo: ${formatMoney(person.subtotal, currency)}`);
-    lines.push(` • Tu parte de propina: ${formatMoney(person.tip, currency)}`);
+    lines.push(` • Food & drinks subtotal: ${formatMoney(person.subtotal, currency)}`);
+    lines.push(` • Proportional tip: ${formatMoney(person.tip, currency)}`);
     if (!state.settings.taxIncluded && person.tax > 0) {
-      lines.push(` • Tu parte de impuestos: ${formatMoney(person.tax, currency)}`);
+      lines.push(` • Proportional sales tax: ${formatMoney(person.tax, currency)}`);
     }
     lines.push('');
     if (state.settings.paymentInfo && state.settings.paymentInfo.trim()) {
-      lines.push(`💳 *Datos para transferir:*\n${state.settings.paymentInfo.trim()}`);
+      lines.push(`💳 *Payment Info:*\n${state.settings.paymentInfo.trim()}`);
       lines.push('');
     }
-    lines.push('✨ Divide cuentas en https://tabsnap.ecn-apps.com');
+    lines.push('✨ Split tabs at https://tabsnap.ecn-apps.com');
 
     return lines.join('\n');
   }
@@ -661,7 +731,7 @@
         // Check duplicates
         const exists = state.participants.some(p => p.name.toLowerCase() === name.toLowerCase());
         if (exists) {
-          showToast(`"${name}" ya está en la mesa`, 'warning');
+          showToast(`"${name}" is already at the table`, 'warning');
           return;
         }
 
@@ -680,7 +750,7 @@
 
         saveState();
         renderAll();
-        showToast(`Agregado: ${name}`);
+        showToast(`Added: ${name}`);
       };
 
       el.btnAddParticipant.addEventListener('click', addParticipantHandler);
@@ -692,9 +762,43 @@
       });
     }
 
-    // Remove Participant Delegation
+    // Quick Diners presets (+ 2, + 3, + 4 Diners)
+    const quickDinerButtons = document.querySelectorAll('.btn-preset-chip[data-quick-diners]');
+    quickDinerButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetCount = parseInt(btn.dataset.quickDiners, 10) || 2;
+        const defaultNames = ['Alex', 'Jordan', 'Taylor', 'Sam', 'Morgan', 'Casey'];
+        state.participants = [];
+        selectedAssigneeIds.clear();
+
+        for (let i = 0; i < targetCount; i++) {
+          const name = defaultNames[i] || `Diner ${i + 1}`;
+          const p = {
+            id: 'p_' + Date.now() + '_' + i,
+            name: name,
+            color: AVATAR_COLORS[i % AVATAR_COLORS.length]
+          };
+          state.participants.push(p);
+          selectedAssigneeIds.add(p.id);
+        }
+
+        saveState();
+        renderAll();
+        showToast(`Added ${targetCount} diners! Now add items in Step 2.`);
+      });
+    });
+
+    // Remove Participant / Inline Demo Delegation
     if (el.participantsList) {
       el.participantsList.addEventListener('click', (e) => {
+        const demoBtn = e.target.closest('.btn-load-demo-inline');
+        if (demoBtn) {
+          loadSampleData();
+          renderAll();
+          showToast('Sample check loaded!');
+          return;
+        }
+
         const removeBtn = e.target.closest('.chip-remove-btn');
         if (!removeBtn) return;
         const chip = removeBtn.closest('.participant-chip');
@@ -714,7 +818,7 @@
 
           saveState();
           renderAll();
-          showToast(`Eliminado: ${removedName}`);
+          showToast(`Removed: ${removedName}`);
         }
       });
     }
@@ -769,12 +873,12 @@
           state.items.splice(itemIndex, 1);
           saveState();
           renderAll();
-          showToast(`Eliminado: ${deletedName}`);
+          showToast(`Item removed: ${deletedName}`);
         }
       });
     }
 
-    // Tip Presets
+    // Tip Presets (15, 18, 20, 25, custom)
     if (el.tipPresetBtns) {
       el.tipPresetBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -808,7 +912,7 @@
       });
     }
 
-    // Tax Toggle & Input
+    // Sales Tax Toggle & Input
     if (el.taxToggleCheckbox) {
       el.taxToggleCheckbox.addEventListener('change', (e) => {
         state.settings.taxIncluded = !e.target.checked;
@@ -844,7 +948,7 @@
       });
     }
 
-    // Toggle Details per Person Delegation
+    // Toggle Details per Diner
     if (el.personResultsList) {
       el.personResultsList.addEventListener('click', (e) => {
         const toggleBtn = e.target.closest('.btn-toggle-items');
@@ -853,7 +957,7 @@
           const breakdown = card.querySelector('.person-items-breakdown');
           if (breakdown) {
             breakdown.classList.toggle('open');
-            toggleBtn.textContent = breakdown.classList.contains('open') ? 'Ocultar detalle ▴' : 'Ver detalle ▾';
+            toggleBtn.textContent = breakdown.classList.contains('open') ? 'Hide items ▴' : 'View items ▾';
           }
           return;
         }
@@ -862,45 +966,90 @@
         if (copyPersonBtn) {
           const personName = copyPersonBtn.dataset.personName;
           const msg = generateSinglePersonMessage(personName);
-          copyToClipboard(msg, `¡Copiado el desglose de ${personName}!`);
+          copyToClipboard(msg, `Copied ${personName}'s breakdown!`);
         }
       });
     }
 
-    // Copy to WhatsApp Full Message
-    if (el.btnCopyWhatsApp) {
-      el.btnCopyWhatsApp.addEventListener('click', () => {
+    // Primary Copy Summary for Venmo / Messages
+    if (el.btnCopySummary) {
+      el.btnCopySummary.addEventListener('click', () => {
         const calc = calculateAll();
-        const text = generateWhatsAppMessage(calc);
-        copyToClipboard(text, '¡Resumen de WhatsApp copiado al portapapeles!');
+        const text = generateShareMessage(calc);
+        copyToClipboard(text, 'Bill summary copied to clipboard! Ready to paste into Venmo, Messages, or WhatsApp.');
       });
     }
 
-    if (el.btnMobileWhatsApp) {
-      el.btnMobileWhatsApp.addEventListener('click', () => {
+    // Native Share Sheet (iMessage, SMS, WhatsApp, Slack, etc.)
+    if (el.btnShareNative) {
+      el.btnShareNative.addEventListener('click', async () => {
         const calc = calculateAll();
-        const text = generateWhatsAppMessage(calc);
-        copyToClipboard(text, '¡Resumen de WhatsApp copiado!');
+        const text = generateShareMessage(calc);
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'TabSnap — Bill Breakdown',
+              text: text
+            });
+            showToast('Tab shared successfully!');
+            return;
+          } catch (err) {
+            if (err.name !== 'AbortError') {
+              console.debug('Native share cancelled or failed:', err);
+            }
+          }
+        }
+        // Fallback to clipboard if navigator.share is unavailable or dismissed
+        copyToClipboard(text, 'Summary copied to clipboard!');
       });
     }
 
-    // Direct WhatsApp Web/App launcher
+    // Mobile Sticky Bar Copy / Share
+    if (el.btnMobileShare) {
+      el.btnMobileShare.addEventListener('click', async () => {
+        const calc = calculateAll();
+        const text = generateShareMessage(calc);
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'TabSnap — Bill Breakdown',
+              text: text
+            });
+            showToast('Tab shared successfully!');
+            return;
+          } catch (err) {
+            if (err.name !== 'AbortError') {
+              console.debug('Native share error:', err);
+            }
+          }
+        }
+        copyToClipboard(text, 'Bill summary copied to clipboard!');
+      });
+    }
+
+    // WhatsApp direct link
     if (el.btnOpenWhatsApp) {
       el.btnOpenWhatsApp.addEventListener('click', () => {
         const calc = calculateAll();
-        const text = generateWhatsAppMessage(calc);
+        const text = generateShareMessage(calc);
         const encoded = encodeURIComponent(text);
         window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
       });
     }
 
-    // Demo Table
+    // Demo / Sample Table Loader
+    const loadDemoHandler = () => {
+      loadSampleData();
+      renderAll();
+      showToast('Sample check loaded!');
+    };
+
     if (el.btnDemoTable) {
-      el.btnDemoTable.addEventListener('click', () => {
-        loadSampleData();
-        renderAll();
-        showToast('¡Cargada la cuenta de ejemplo!');
-      });
+      el.btnDemoTable.addEventListener('click', loadDemoHandler);
+    }
+
+    if (el.btnQuickDemo) {
+      el.btnQuickDemo.addEventListener('click', loadDemoHandler);
     }
 
     // Reset Table Modal
@@ -918,13 +1067,10 @@
 
     if (el.btnConfirmReset && el.resetModalOverlay) {
       el.btnConfirmReset.addEventListener('click', () => {
-        state.participants = [];
-        state.items = [];
-        selectedAssigneeIds.clear();
-        saveState();
+        initCleanState();
         renderAll();
         el.resetModalOverlay.classList.remove('active');
-        showToast('Mesa reiniciada desde cero');
+        showToast('Table cleared from scratch');
       });
     }
   }
@@ -935,25 +1081,25 @@
     const qty = parseInt(el.itemQtyInput.value, 10) || 1;
 
     if (!name) {
-      showToast('Ingresa el nombre o concepto del plato', 'warning');
+      showToast('Please enter the item or dish name', 'warning');
       el.itemNameInput.focus();
       return;
     }
 
     if (isNaN(price) || price < 0) {
-      showToast('Ingresa un precio válido', 'warning');
+      showToast('Please enter a valid price', 'warning');
       el.itemPriceInput.focus();
       return;
     }
 
     if (state.participants.length === 0) {
-      showToast('Primero agrega al menos 1 comensal a la mesa', 'warning');
+      showToast('Add at least 1 diner to the table first', 'warning');
       el.participantNameInput.focus();
       return;
     }
 
     if (selectedAssigneeIds.size === 0) {
-      showToast('Selecciona a quién o a quiénes les corresponde este plato', 'warning');
+      showToast('Select who ordered or shared this item', 'warning');
       return;
     }
 
@@ -975,7 +1121,7 @@
 
     saveState();
     renderAll();
-    showToast(`Plato agregado: ${name}`);
+    showToast(`Added: ${name}`);
   }
 
   function syncTipUI() {
@@ -1013,7 +1159,7 @@
      Clipboard & Notifications
      ========================================================================== */
 
-  async function copyToClipboard(text, successMessage = 'Copiado al portapapeles') {
+  async function copyToClipboard(text, successMessage = 'Copied to clipboard!') {
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
@@ -1030,8 +1176,8 @@
       }
       showToast(successMessage);
     } catch (err) {
-      console.error('Error al copiar:', err);
-      showToast('No se pudo copiar automáticamente. Puedes seleccionar el texto.', 'warning');
+      console.error('Error copying text:', err);
+      showToast('Could not copy automatically. You can select and copy the text preview.', 'warning');
     }
   }
 
