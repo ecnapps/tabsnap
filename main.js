@@ -251,7 +251,7 @@
   function loadTheme() {
     const savedTheme = localStorage.getItem(THEME_KEY);
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = savedTheme || (prefersDark ? 'dark' : 'dark'); // Default to sleek dark mode
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
     setTheme(theme);
   }
 
@@ -409,9 +409,15 @@
       step3Content.style.display = hasItems ? 'block' : 'none';
     }
 
+    const currencySymbolLabel = document.getElementById('currencySymbolLabel');
+    if (currencySymbolLabel) {
+      currencySymbolLabel.textContent = state.settings.currency || '$';
+    }
+
     const taxRateSummary = document.getElementById('taxRateSummary');
     if (taxRateSummary) {
-      taxRateSummary.textContent = `${state.settings.taxPercent || 8.5}%`;
+      const taxRate = state.settings.taxPercent !== undefined ? state.settings.taxPercent : 8.5;
+      taxRateSummary.textContent = `${taxRate}%`;
     }
   }
 
@@ -853,10 +859,20 @@
       });
     }
 
-    // Add Item
+    // Add Item (Button and Enter key on form inputs)
     if (el.btnAddItem) {
       el.btnAddItem.addEventListener('click', handleAddItem);
     }
+
+    [el.itemNameInput, el.itemPriceInput, el.itemQtyInput].forEach(inputEl => {
+      if (!inputEl) return;
+      inputEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.isComposing) {
+          e.preventDefault();
+          handleAddItem();
+        }
+      });
+    });
 
     // Delete Item Delegation
     if (el.itemsList) {
@@ -927,6 +943,7 @@
         state.settings.taxPercent = Math.max(0, parseFloat(e.target.value) || 0);
         saveState();
         renderCalculations();
+        updateStepVisibility();
       });
     }
 
@@ -994,12 +1011,13 @@
             showToast('Tab shared successfully!');
             return;
           } catch (err) {
-            if (err.name !== 'AbortError') {
-              console.debug('Native share cancelled or failed:', err);
+            if (err.name === 'AbortError') {
+              return;
             }
+            console.debug('Native share cancelled or failed:', err);
           }
         }
-        // Fallback to clipboard if navigator.share is unavailable or dismissed
+        // Fallback to clipboard only if navigator.share is unsupported or failed with system error
         copyToClipboard(text, 'Summary copied to clipboard!');
       });
     }
@@ -1018,9 +1036,10 @@
             showToast('Tab shared successfully!');
             return;
           } catch (err) {
-            if (err.name !== 'AbortError') {
-              console.debug('Native share error:', err);
+            if (err.name === 'AbortError') {
+              return;
             }
+            console.debug('Native share error:', err);
           }
         }
         copyToClipboard(text, 'Bill summary copied to clipboard!');
@@ -1166,13 +1185,16 @@
       } else {
         const textarea = document.createElement('textarea');
         textarea.value = text;
-        textarea.style.position = 'fixed';
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
         textarea.style.left = '-9999px';
+        textarea.style.fontSize = '16px';
         document.body.appendChild(textarea);
-        textarea.focus();
         textarea.select();
-        document.execCommand('copy');
+        textarea.setSelectionRange(0, textarea.value.length);
+        const successful = document.execCommand('copy');
         document.body.removeChild(textarea);
+        if (!successful) throw new Error('execCommand failed');
       }
       showToast(successMessage);
     } catch (err) {
