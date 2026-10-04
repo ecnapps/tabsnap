@@ -637,7 +637,7 @@
             </div>
 
             <div class="person-details-toggle">
-              <button type="button" class="btn-ghost btn-toggle-items" style="padding: 0.2rem 0.5rem; font-size: 0.78rem;">
+              <button type="button" class="btn-ghost btn-toggle-items" data-items-count="${person.itemsDetailed.length}" style="padding: 0.2rem 0.5rem; font-size: 0.78rem;">
                 View items (${person.itemsDetailed.length}) ▾
               </button>
               <button type="button" class="btn-copy-person" data-person-name="${escapeHtml(person.name)}" title="Copy diner breakdown">
@@ -1009,8 +1009,9 @@
           const card = toggleBtn.closest('.person-card');
           const breakdown = card.querySelector('.person-items-breakdown');
           if (breakdown) {
-            breakdown.classList.toggle('open');
-            toggleBtn.textContent = breakdown.classList.contains('open') ? 'Hide items ▴' : 'View items ▾';
+            const count = toggleBtn.dataset.itemsCount || '';
+            const suffix = count ? ` (${count})` : '';
+            toggleBtn.textContent = breakdown.classList.contains('open') ? 'Hide items ▴' : `View items${suffix} ▾`;
           }
           return;
         }
@@ -1148,7 +1149,7 @@
   function handleAddItem() {
     const name = el.itemNameInput.value.trim();
     const price = parseFloat(el.itemPriceInput.value);
-    const qty = parseInt(el.itemQtyInput.value, 10) || 1;
+    const qty = Math.max(1, Math.min(99, parseInt(el.itemQtyInput.value, 10) || 1));
 
     if (!name) {
       showToast('Please enter the item or dish name', 'warning');
