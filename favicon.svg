@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="tabBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+    <linearGradient id="tabCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="accentG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background rounded squircle -->
+  <rect width="64" height="64" rx="16" fill="url(#tabBg)"/>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="15.25" stroke="rgba(52,211,153,0.25)" stroke-width="1.5"/>
+
+  <!-- Left receipt piece -->
+  <path d="M14 12 C14 10.89 14.89 10 16 10 L28 10 L30 18 L26 26 L30 34 L26 42 L30 50 L28 54 L16 54 C14.89 54 14 53.11 14 52 Z" fill="#ffffff" opacity="0.95"/>
+
+  <!-- Right receipt piece (split/snap) -->
+  <path d="M34 10 L48 10 C49.11 10 50 10.89 50 12 L50 52 C50 53.11 49.11 54 48 54 L34 54 L36 50 L32 42 L36 34 L32 26 L36 18 Z" fill="url(#tabCard)"/>
+
+  <!-- Receipt item lines on left -->
+  <line x1="18" y1="18" x2="24" y2="18" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="18" y1="24" x2="23" y2="24" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="18" y1="30" x2="25" y2="30" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="18" y1="38" x2="24" y2="38" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="18" y1="46" x2="23" y2="46" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Right receipt icons & snap energy -->
+  <path d="M40 20 L44 20 M40 26 L45 26 M40 32 L43 32 M39 42 L45 42" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+  <circle cx="43" cy="42" r="3" fill="#34d399" opacity="0.4"/>
+
+  <!-- Lightning snap spark in middle -->
+  <path d="M32 14 L29 28 L34 26 L30 44 L36 29 L31 31 Z" fill="url(#accentG)" filter="url(#glow)"/>
+</svg>

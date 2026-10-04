@@ -1,0 +1,21 @@
+{
+  "name": "TabSnap — Calculadora de Cuentas Compartidas",
+  "short_name": "TabSnap",
+  "description": "Divide cuentas de restaurantes, salidas con amigos y tickets grupales con propinas e impuestos proporcionales. Copia a WhatsApp y 100% privado en tu navegador.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061313",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

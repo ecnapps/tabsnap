@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#0a0f14">
+
+  <!-- Primary Meta Tags -->
+  <title>TabSnap — Divide la Cuenta del Restaurante y Comparte en WhatsApp</title>
+  <meta name="title" content="TabSnap — Divide la Cuenta del Restaurante y Comparte en WhatsApp">
+  <meta name="description" content="Calculadora inteligente para dividir cuentas de restaurantes, salidas con amigos y tickets grupales. Asigna platos compartidos o individuales, propinas e impuestos proporcionales y copia el resumen listo a WhatsApp. 100% privado en tu navegador.">
+  <meta name="keywords" content="dividir cuenta restaurante, calculadora de cuentas, split bill app, repartir propina proporcional, ticket grupal comida, dividir gastos amigos, cuenta para whatsapp, calculadora de propinas, cuentas compartidas">
+  <meta name="author" content="ecn-apps">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tabsnap.ecn-apps.com/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tabsnap.ecn-apps.com/">
+  <meta property="og:title" content="TabSnap — Divide la Cuenta del Restaurante sin Enredos">
+  <meta property="og:description" content="Ingresa los nombres de tu mesa, carga los platos del ticket asignando a quién le corresponde y calcula propinas e impuestos justos. Copia el resumen formateado a WhatsApp.">
+  <meta property="og:image" content="https://tabsnap.ecn-apps.com/favicon.svg">
+  <meta property="og:site_name" content="TabSnap">
+  <meta property="og:locale" content="es_ES">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://tabsnap.ecn-apps.com/">
+  <meta name="twitter:title" content="TabSnap — Calculadora de Cuentas Compartidas para Restaurantes">
+  <meta name="twitter:description" content="Divide tickets grupales al instante. Propinas e impuestos proporcionales justos, platos compartidos y resumen listo para WhatsApp.">
+  <meta name="twitter:image" content="https://tabsnap.ecn-apps.com/favicon.svg">
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="TabSnap RSS Feed" href="https://tabsnap.ecn-apps.com/feed.xml">
+
+  <!-- Preconnect & DNS Prefetch -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- Google AdSense Verification Tag -->
+  <meta name="google-adsense-account" content="ca-pub-9934490837747927">
+
+  <!-- Google tag (gtag.js) - Guarded for localhost & development environments -->
+  <script>
+    (function() {
+      var hostname = (window.location.hostname || '').toLowerCase();
+      var protocol = window.location.protocol || '';
+      var isLocal = protocol === 'file:' ||
+        !hostname ||
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname === '[::1]' ||
+        hostname === '::1' ||
+        hostname.endsWith('.local') ||
+        hostname.endsWith('.test') ||
+        hostname.endsWith('.localhost') ||
+        hostname.endsWith('.internal') ||
+        /^127\./.test(hostname) ||
+        /^192\.168\./.test(hostname) ||
+        /^10\./.test(hostname) ||
+        /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(hostname);
+
+      window.__isLocalEnvironment = isLocal;
+      window.dataLayer = window.dataLayer || [];
+
+      if (isLocal) {
+        window['ga-disable-G-999B07KX7R'] = true;
+        window.gtag = function() {
+          if (window.console && console.debug) {
+            console.debug('[GA4 disabled on local environment]', ...arguments);
+          }
+        };
+      } else {
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-999B07KX7R');
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-999B07KX7R';
+        var firstScript = document.getElementsByTagName('script')[0];
+        if (firstScript && firstScript.parentNode) {
+          firstScript.parentNode.insertBefore(script, firstScript);
+        } else {
+          (document.head || document.documentElement).appendChild(script);
+        }
+      }
+    })();
+  </script>
+
+  <!-- Google AdSense Loader (Async, deferred on local) -->
+  <script>
+    (function() {
+      var hostname = (window.location.hostname || '').toLowerCase();
+      var isLocal = window.__isLocalEnvironment || hostname === 'localhost' || hostname === '127.0.0.1' || !hostname;
+      if (!isLocal) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9934490837747927';
+        s.crossOrigin = 'anonymous';
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+
+  <!-- Structured Data: WebSite, WebApplication, BreadcrumbList & FAQPage JSON-LD -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://tabsnap.ecn-apps.com/#website",
+      "url": "https://tabsnap.ecn-apps.com/",
+      "name": "TabSnap — Calculadora de Cuentas de Restaurante y Gastos Compartidos",
+      "description": "Divide cuentas de salidas grupales, asigna platos individuales o compartidos, calcula propinas proporcionales y exporta a WhatsApp.",
+      "inLanguage": "es",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ecn-apps",
+        "url": "https://ecn-apps.com/"
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://tabsnap.ecn-apps.com/#webapp",
+      "name": "TabSnap Bill Splitter",
+      "url": "https://tabsnap.ecn-apps.com/",
+      "applicationCategory": "FinanceApplication, UtilitiesApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires LocalStorage.",
+      "description": "Calculadora rápida de cuentas para comensales en restaurantes. Asigna platos por comensal, propina e impuesto proporcional, y genera mensajes listos para WhatsApp.",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Adición y eliminación instantánea de comensales",
+        "Asignación de platos compartidos entre varios o individuales",
+        "Cálculo proporcional exacto de impuestos y propinas",
+        "Generador de texto formateado listo para WhatsApp",
+        "Persistencia local con LocalStorage sin necesidad de registro",
+        "Diseño mobile-first optimizado para celulares en la mesa"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ecn-apps",
+        "url": "https://ecn-apps.com/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://tabsnap.ecn-apps.com/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ecn-apps",
+          "item": "https://ecn-apps.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "TabSnap",
+          "item": "https://tabsnap.ecn-apps.com/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://tabsnap.ecn-apps.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Por qué es mejor calcular la propina de forma proporcional?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dividir la propina en partes iguales castiga a quien consumió poco (por ejemplo, una ensalada o café) y favorece a quien pidió platillos o bebidas costosas. TabSnap calcula el porcentaje de propina e impuestos de manera proporcional al consumo individual real de cada comensal, haciendo la cuenta 100% justa para todos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo comparto el desglose de la cuenta por WhatsApp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Una vez ingresados los platos y seleccionada la propina, haz clic en el botón 'Copiar resumen para WhatsApp' o 'Abrir WhatsApp'. El sistema genera un mensaje con negritas, emojis, detalle por comensal y datos de transferencia listos para enviar al grupo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Mis datos se guardan en algún servidor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. TabSnap es 100% privado y del lado del cliente. Todos tus datos se guardan en el LocalStorage de tu propio navegador móvil o de escritorio, sin recopilar información ni requerir inicio de sesión."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo dividir un plato entre 2 o más personas en vez de toda la mesa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Al registrar un plato puedes tocar únicamente los nombres de quienes compartieron ese platillo (por ejemplo, una botella de vino o un postre entre 2 amigos) y el costo se repartirá equitativamente entre los elegidos."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header">
+    <div class="container header__content">
+      <a href="https://tabsnap.ecn-apps.com/" class="brand" aria-label="TabSnap Inicio">
+        <svg class="brand__logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" rx="16" fill="#0f172a"/>
+          <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="15.25" stroke="rgba(52,211,153,0.3)" stroke-width="1.5"/>
+          <path d="M14 12 C14 10.89 14.89 10 16 10 L28 10 L30 18 L26 26 L30 34 L26 42 L30 50 L28 54 L16 54 C14.89 54 14 53.11 14 52 Z" fill="#ffffff" opacity="0.95"/>
+          <path d="M34 10 L48 10 C49.11 10 50 10.89 50 12 L50 52 C50 53.11 49.11 54 48 54 L34 54 L36 50 L32 42 L36 34 L32 26 L36 18 Z" fill="#10b981"/>
+          <line x1="18" y1="18" x2="24" y2="18" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+          <line x1="18" y1="24" x2="23" y2="24" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="18" y1="30" x2="25" y2="30" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="18" y1="38" x2="24" y2="38" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M32 14 L29 28 L34 26 L30 44 L36 29 L31 31 Z" fill="#34d399"/>
+        </svg>
+        <span class="brand__text">
+          TabSnap
+          <span class="brand__badge">Bill Splitter</span>
+        </span>
+      </a>
+
+      <div class="header__actions">
+        <!-- Currency Selector -->
+        <select id="currencySelect" class="currency-select" aria-label="Seleccionar moneda" title="Moneda">
+          <option value="$">$ (Pesos / Dólares)</option>
+          <option value="€">€ (Euros)</option>
+          <option value="£">£ (Libras)</option>
+          <option value="S/">S/ (Soles)</option>
+          <option value="Q">Q (Quetzales)</option>
+        </select>
+
+        <!-- Demo Table Loader -->
+        <button id="btnDemoTable" class="btn-ghost" type="button" title="Cargar cuenta de ejemplo">
+          ✨ Ejemplo
+        </button>
+
+        <!-- Reset Table -->
+        <button id="btnResetTable" class="btn-ghost danger" type="button" title="Reiniciar mesa">
+          🗑️ Limpiar
+        </button>
+
+        <!-- Dark / Light Theme Toggle -->
+        <button id="themeToggleBtn" class="btn-icon" type="button" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Responsive Ad Container -->
+  <div class="container ad-slot-wrapper">
+    <div class="ad-slot-container" id="topAdSlot">
+      <span class="ad-slot-label">Publicidad</span>
+      <!-- Google AdSense Live Slot -->
+      <ins class="adsbygoogle"
+           style="display:block; width:100%; max-height:90px;"
+           data-ad-client="ca-pub-9934490837747927"
+           data-ad-slot="auto"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+
+  <!-- Main App Stage -->
+  <main class="container">
+    <!-- Hero Header -->
+    <section class="hero">
+      <h1 class="hero__title">Divide la Cuenta de la Mesa <span>sin Enredos</span></h1>
+      <p class="hero__subtitle">
+        Asigna platos individuales o compartidos, ajusta la propina proporcionalmente para que cada quien pague lo justo y copia el desglose listo para WhatsApp.
+      </p>
+      <div class="hero__tags">
+        <span class="hero__tag">🔒 100% Privado en LocalStorage</span>
+        <span class="hero__tag">⚖️ Propina Proporcional Justa</span>
+        <span class="hero__tag">📲 Resumen para WhatsApp</span>
+        <span class="hero__tag">⚡ Sin Registros</span>
+      </div>
+    </section>
+
+    <!-- Two-column interactive grid -->
+    <div class="app-grid">
+
+      <!-- LEFT COLUMN: Input Stage (Comensales, Consumos, Ajustes) -->
+      <div class="input-stage">
+
+        <!-- Card 1: Comensales -->
+        <section class="card" aria-labelledby="headingParticipants">
+          <div class="card__header">
+            <h2 id="headingParticipants" class="card__title">
+              👥 Comensales en la mesa
+            </h2>
+            <span id="participantsCountBadge" class="card__title-badge">0 comensales</span>
+          </div>
+
+          <div class="participant-input-row">
+            <label for="participantNameInput" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);">Nombre del comensal</label>
+            <input type="text" id="participantNameInput" class="input-text" placeholder="Nombre (ej. Carlos, Sofía...)" autocomplete="off" maxlength="25" enterkeyhint="done">
+            <button type="button" id="btnAddParticipant" class="btn-primary">
+              + Agregar
+            </button>
+          </div>
+
+          <!-- Participants list chips -->
+          <div id="participantsList" class="participants-list" aria-live="polite">
+            <!-- Dynamic participant chips -->
+          </div>
+        </section>
+
+        <!-- Card 2: Cargar gastos del ticket -->
+        <section class="card" style="margin-top: 1.5rem;" aria-labelledby="headingItems">
+          <div class="card__header">
+            <h2 id="headingItems" class="card__title">
+              🍽️ Platos y Bebidas del Ticket
+            </h2>
+            <span id="itemsCountBadge" class="card__title-badge">0 ítems</span>
+          </div>
+
+          <!-- Add Item Form -->
+          <div class="item-form">
+            <div class="form-group" style="margin-bottom: 0.75rem;">
+              <label for="itemNameInput" class="form-label">Concepto / Plato</label>
+              <input type="text" id="itemNameInput" class="input-text" placeholder="Ej. Tacos, Cerveza, Pizza, Guacamole..." autocomplete="off">
+            </div>
+
+            <div class="form-row form-row-pricing">
+              <div class="form-group">
+                <label for="itemPriceInput" class="form-label">Precio Unitario ($)</label>
+                <input type="number" id="itemPriceInput" class="input-number" placeholder="0.00" step="any" min="0" inputmode="decimal">
+              </div>
+              <div class="form-group">
+                <label for="itemQtyInput" class="form-label">Cantidad</label>
+                <input type="number" id="itemQtyInput" class="input-number" value="1" min="1" max="99" inputmode="numeric">
+              </div>
+            </div>
+
+            <!-- Assignees Selector -->
+            <div class="form-group" style="margin-top: 0.85rem;">
+              <div class="assignees-label-row">
+                <span class="form-label">¿A quién le corresponde?</span>
+                <div class="assignees-actions">
+                  <button type="button" id="btnSelectAllAssignees" class="btn-pill-action">Todos</button>
+                  <button type="button" id="btnClearAssignees" class="btn-pill-action">Ninguno</button>
+                </div>
+              </div>
+
+              <!-- Assignee Pills -->
+              <div id="assigneePillsGrid" class="assignee-pills-grid">
+                <!-- Dynamic pills -->
+              </div>
+            </div>
+
+            <button type="button" id="btnAddItem" class="btn-primary" style="width: 100%; margin-top: 0.5rem;">
+              + Agregar al Ticket
+            </button>
+          </div>
+
+          <!-- Items Added List -->
+          <div id="itemsList" class="items-list" aria-live="polite">
+            <!-- Dynamic item cards -->
+          </div>
+        </section>
+
+        <!-- Card 3: Ajustes de Propina, Impuestos y Pago -->
+        <section class="card" style="margin-top: 1.5rem;" aria-labelledby="headingSettings">
+          <div class="card__header">
+            <h2 id="headingSettings" class="card__title">
+              ⚙️ Propina e Impuestos
+            </h2>
+          </div>
+
+          <div class="settings-section">
+            <!-- Tip selector -->
+            <div>
+              <span class="form-label" style="display:block; margin-bottom: 0.5rem;" id="tipSelectorLabel">Propina para el servicio</span>
+              <div class="tip-presets-grid" role="group" aria-labelledby="tipSelectorLabel">
+                <button type="button" class="tip-preset-btn" data-tip="0" aria-label="Sin propina 0%">0%</button>
+                <button type="button" class="tip-preset-btn" data-tip="10" aria-label="Propina 10%">10%</button>
+                <button type="button" class="tip-preset-btn active" data-tip="15" aria-label="Propina 15% recomendada">15%</button>
+                <button type="button" class="tip-preset-btn" data-tip="18" aria-label="Propina 18%">18%</button>
+                <button type="button" class="tip-preset-btn" data-tip="custom" aria-label="Propina personalizada">Otro</button>
+              </div>
+              <input type="number" id="tipCustomInput" class="input-number" placeholder="% de propina personalizado" min="0" step="1" inputmode="decimal" style="display: none; margin-top: 0.5rem;" aria-label="Porcentaje de propina personalizado">
+            </div>
+
+            <!-- Tax toggle -->
+            <div class="settings-row">
+              <label class="toggle-switch-group" for="taxToggleCheckbox">
+                <span class="toggle-label">Agregar Impuesto / IVA</span>
+                <input type="checkbox" id="taxToggleCheckbox" class="visually-hidden" style="position:absolute;width:1px;height:1px;clip-path:inset(50%);" aria-label="Activar cálculo de impuesto o IVA adicional">
+                <span class="switch-pill" aria-hidden="true"></span>
+              </label>
+
+              <div id="taxGroupInput" style="display: none;">
+                <label for="taxPercentInput" class="form-label">Impuesto (%)</label>
+                <input type="number" id="taxPercentInput" class="input-number" value="16" min="0" step="any" inputmode="decimal" aria-label="Porcentaje de impuesto o IVA">
+              </div>
+            </div>
+
+            <!-- Rounding option -->
+            <div class="form-group">
+              <label for="roundingSelect" class="form-label">Redondeo de centavos</label>
+              <select id="roundingSelect" class="currency-select" style="width: 100%;" aria-label="Opciones de redondeo de centavos">
+                <option value="none">Sin redondeo (centavos exactos)</option>
+                <option value="ceil">Redondear al entero superior ($ c/u)</option>
+              </select>
+            </div>
+
+            <!-- Bank info for WhatsApp message -->
+            <div class="form-group">
+              <label for="paymentInfoInput" class="form-label">Datos de pago para el mensaje (opcional)</label>
+              <input type="text" id="paymentInfoInput" class="input-text" placeholder="Ej. CLABE BBVA: 01218001... o Celular / Alias" aria-label="Datos bancarios o de transferencia para incluir en WhatsApp">
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Output Stage (Totales, Por Persona, WhatsApp) -->
+      <div class="output-stage">
+
+        <!-- Card 4: Gran Total de la Mesa -->
+        <section class="totals-summary-card" aria-labelledby="headingTotals">
+          <div class="totals-breakdown">
+            <div class="breakdown-item">
+              <span class="breakdown-label">Subtotal Consumo</span>
+              <span id="tableSubtotalDisplay" class="breakdown-value">$0.00</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Propina</span>
+              <span id="tableTipDisplay" class="breakdown-value">$0.00</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Impuestos</span>
+              <span id="tableTaxDisplay" class="breakdown-value">Incluido</span>
+            </div>
+          </div>
+
+          <div class="grand-total-row">
+            <div>
+              <span class="grand-total-label" id="headingTotals">Total Mesa</span>
+              <span style="display:block; font-size: 0.78rem; color: var(--text-secondary);">Propina e impuestos repartidos de forma justa</span>
+            </div>
+            <span id="tableGrandTotalDisplay" class="grand-total-amount">$0.00</span>
+          </div>
+        </section>
+
+        <!-- Card 5: Desglose por Comensal -->
+        <section class="card" aria-labelledby="headingBreakdown">
+          <div class="card__header">
+            <h2 id="headingBreakdown" class="card__title">
+              💰 ¿Cuánto paga cada uno?
+            </h2>
+          </div>
+
+          <div id="personResultsList" class="results-grid" aria-live="polite">
+            <!-- Dynamic person breakdown cards -->
+          </div>
+
+          <!-- Card 6: Acciones de WhatsApp -->
+          <div class="actions-card">
+            <button type="button" id="btnCopyWhatsApp" class="btn-whatsapp">
+              <svg viewBox="0 0 24 24">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.56 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.26-1.14l-.3-.18-3.16.83.84-3.08-.2-.32a8.163 8.163 0 0 1-1.25-4.35c0-4.51 3.67-8.18 8.18-8.18zm4.56 11.59c-.25-.13-1.48-.73-1.71-.81-.23-.09-.4-.13-.56.13-.17.25-.65.81-.8 1-.15.19-.3.21-.55.09-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.3.38-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.78 2.71 4.31 3.8.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.3z"/>
+              </svg>
+              Copiar Resumen para WhatsApp
+            </button>
+
+            <button type="button" id="btnOpenWhatsApp" class="btn-copy-clipboard">
+              📲 Abrir WhatsApp Directamente
+            </button>
+
+            <details style="margin-top: 0.5rem;">
+              <summary style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer;">
+                Ver vista previa del texto de WhatsApp ▾
+              </summary>
+              <div id="whatsappPreviewText" class="whatsapp-preview-box"></div>
+            </details>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+    <!-- Amazon Associates Recommendations Section -->
+    <section class="amazon-affiliate-section" id="amazonProducts">
+      <div class="section-badge">🛍️ Recomendados para Salidas & Comensales</div>
+      <h2 class="section-title">Accesorios & Herramientas para la Sobremesa</h2>
+      <p class="section-subtitle">
+        Selección de accesorios para salidas en restaurantes, organizadores de cuentas y entretenimiento para reuniones con amigos de nuestra red de Afiliados de Amazon.
+      </p>
+
+      <div class="products-grid">
+        <!-- Product 1: Waiter Book / Bill Organizer -->
+        <article class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://m.media-amazon.com/images/I/71wZgW2rGPL.jpg" alt="Organizador de Cuentas y Libreta de Restaurante" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
+          </div>
+          <span class="product-category">Organización & Salidas</span>
+          <h3 class="product-title">Organizador de Tickets y Billetera para Cuentas</h3>
+          <p class="product-desc">Porta cuentas compacto con bolsillos con cierre, compartimento para tickets y libreta para no perder ningún comprobante.</p>
+          <a href="https://www.amazon.com/dp/B08P8G9NZ2?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
+            Ver en Amazon &rarr;
+          </a>
+        </article>
+
+        <!-- Product 2: Magnetic Power Bank -->
+        <article class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://m.media-amazon.com/images/I/61sJbK2Wf8L.jpg" alt="Anker Batería Externa Portátil Magnética" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
+          </div>
+          <span class="product-category">Batería & Viaje</span>
+          <h3 class="product-title">Anker Batería Externa Portátil Magnética 10,000mAh</h3>
+          <p class="product-desc">Que nadie se quede sin batería al pagar o transferir. Carga inalámbrica rápida y ultra-compacta para llevar en cualquier bolsillo.</p>
+          <a href="https://www.amazon.com/dp/B099F558LG?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
+            Ver en Amazon &rarr;
+          </a>
+        </article>
+
+        <!-- Product 3: Party Social Card Game -->
+        <article class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://m.media-amazon.com/images/I/71K7s21Uq4L.jpg" alt="Taco Gato Cabra Queso Pizza Juego de Mesa" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
+          </div>
+          <span class="product-category">Juegos de Sobremesa</span>
+          <h3 class="product-title">Taco Gato Cabra Queso Pizza — Juego de Cartas</h3>
+          <p class="product-desc">El juego de cartas adictivo y ultra-divertido para animar la sobremesa mientras llega la cuenta. Partidas de 10 minutos para toda la mesa.</p>
+          <a href="https://www.amazon.com/dp/B07P61T6NL?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
+            Ver en Amazon &rarr;
+          </a>
+        </article>
+
+        <!-- Product 4: Pocket Calculator & Stylus -->
+        <article class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://m.media-amazon.com/images/I/61z+F3J2lEL.jpg" alt="Calculadora de Bolsillo con Pizarra LCD" class="product-img" loading="lazy" width="160" height="160" referrerpolicy="no-referrer">
+          </div>
+          <span class="product-category">Herramientas</span>
+          <h3 class="product-title">Calculadora Plegable de Bolsillo con Pizarra LCD</h3>
+          <p class="product-desc">Diseño plegable ultra-ligero con tableta para notas rápidas de comensales, operaciones instantáneas y pantalla de protección ocular.</p>
+          <a href="https://www.amazon.com/dp/B09G9T7T8Y?tag=ecnapps-20" target="_blank" rel="sponsored noopener noreferrer" class="product-cta">
+            Ver en Amazon &rarr;
+          </a>
+        </article>
+      </div>
+
+      <p class="affiliate-disclaimer">
+        Como participante del Programa de Afiliados de Amazon, este sitio genera ingresos por compras adscritas que cumplen los requisitos aplicables, sin costo adicional para ti.
+      </p>
+    </section>
+
+    <!-- SEO Rich Features & Benefits Section -->
+    <section class="seo-section">
+      <div class="section-badge">💡 Guía & Preguntas Frecuentes</div>
+      <h2 class="section-title">¿Cómo Dividir una Cuenta de Restaurante Fácilmente?</h2>
+      <p class="section-subtitle">
+        Descubre por qué calcular las propinas de manera proporcional es la forma más honesta de pagar en grupo y cómo TabSnap te ahorra discusiones incómodas.
+      </p>
+
+      <div class="faq-grid">
+        <details class="faq-item" open>
+          <summary class="faq-summary">¿Por qué es mejor la propina proporcional que dividir en partes iguales?</summary>
+          <div class="faq-content">
+            Cuando se divide la cuenta simplemente entre el número de personas (50/50 o en partes iguales), quien pidió un platillo económico o agua termina subsidiando a quien consumió cortes caros o botellas de vino. TabSnap distribuye la propina y los impuestos en porcentaje directo a lo que consumió cada individuo. De esa manera, todos aportan una propina justa según su propio pedido.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">¿Cómo se reparten los platillos compartidos?</summary>
+          <div class="faq-content">
+            Si 3 personas de una mesa de 6 pidieron una pizza o una ronda de cervezas, solo tienes que marcar a esas 3 personas en el selector. TabSnap dividirá el costo exacto de ese platillo entre las personas seleccionadas y sumará su fracción correspondiente al subtotal de cada una.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">¿Cómo comparto el desglose por WhatsApp?</summary>
+          <div class="faq-content">
+            Al finalizar tu mesa, presiona el botón verde "Copiar Resumen para WhatsApp". Se generará un texto optimizado con emojis, formato legible en negritas, subtotales, propina, total individual y tus datos bancarios para transferencias (SPEI, Bizum, Zelle, CLABE). Solo pégalo en el chat grupal y listo.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">¿Mis datos se guardan o quedan registrados?</summary>
+          <div class="faq-content">
+            No recopilamos ni enviamos datos a ningún servidor externo. TabSnap utiliza la tecnología nativa de LocalStorage en tu navegador para que no pierdas tus cálculos si recargas la pestaña o cierras el celular. Tus datos pertenecen únicamente a tu dispositivo.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">¿Puedo usar TabSnap sin conexión a internet?</summary>
+          <div class="faq-content">
+            Sí. TabSnap cuenta con un Service Worker integrado que almacena en caché la aplicación para que funcione de manera offline en cualquier restaurante o cafetería, incluso con señal débil o intermitente.
+          </div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Sticky Bottom Action Bar -->
+  <aside id="mobileStickyBar" class="mobile-sticky-bar" aria-label="Resumen rápido">
+    <div class="mobile-sticky-content">
+      <div class="mobile-sticky-totals">
+        <span class="mobile-sticky-label">Total Mesa</span>
+        <span id="mobileGrandTotalDisplay" class="mobile-sticky-amount">$0.00</span>
+      </div>
+      <button type="button" id="btnMobileWhatsApp" class="btn-mobile-whatsapp">
+        <span>📋</span> WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <!-- Confirm Reset Modal -->
+  <div id="resetModalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+    <div class="modal-card">
+      <h3 id="resetModalTitle" class="modal-title">¿Limpiar la mesa?</h3>
+      <p class="modal-desc">
+        Esta acción borrará todos los comensales, platos y ajustes actuales de la mesa. ¿Deseas comenzar una nueva cuenta desde cero?
+      </p>
+      <div class="modal-actions">
+        <button type="button" id="btnCancelReset" class="btn-ghost">Cancelar</button>
+        <button type="button" id="btnConfirmReset" class="btn-ghost danger">Sí, limpiar todo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Footer (Matching Ecosystem) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="brand">
+            <span class="brand__text" style="font-size:1.3rem;">TabSnap</span>
+          </div>
+          <p class="footer__brand-p">
+            Calculadora inteligente de cuentas de restaurantes y gastos grupales. Parte de la suite de herramientas web de ecn-apps.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer__col-title">Herramientas del Ecosistema</h4>
+          <ul class="footer__links">
+            <li><a href="https://rollypop.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">RollyPop — Ruleta de Decisiones</a></li>
+            <li><a href="https://bgremover.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Background Remover</a></li>
+            <li><a href="https://color-picker.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Color Picker & Palette</a></li>
+            <li><a href="https://passgen.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Password Generator</a></li>
+            <li><a href="https://word-counter.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">Word & Character Counter</a></li>
+            <li><a href="https://qr-generator.ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">QR Code Generator</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__col-title">Plataforma & SEO</h4>
+          <ul class="footer__links">
+            <li><a href="https://tabsnap.ecn-apps.com/sitemap.xml" class="footer__link">Sitemap XML</a></li>
+            <li><a href="https://tabsnap.ecn-apps.com/feed.xml" class="footer__link">RSS Feed</a></li>
+            <li><a href="https://tabsnap.ecn-apps.com/robots.txt" class="footer__link">Robots.txt</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 ecn-apps. Todos los derechos reservados. TabSnap es un producto de ecn-apps.com.</span>
+        <span>Desarrollado por <a href="https://ecn-apps.com/" target="_blank" rel="noopener noreferrer" class="footer__link">ecn-apps.com</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script defer src="/main.js"></script>
+
+  <!-- Amazon Associates Dynamic Engine (ecn-apps ecosystem) -->
+  <script defer src="https://ecn-apps.com/js/amazon-affiliate.js?v=3.0"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TabSnap — Divide Cuentas de Restaurante y Salidas Grupales al Instante</title>
+    <link>https://tabsnap.ecn-apps.com/</link>
+    <description>Calculadora inteligente para dividir tickets de comida, gastos compartidos, propinas e impuestos con resumen para WhatsApp. 100% privado en tu navegador.</description>
+    <language>es</language>
+    <lastBuildDate>Sat, 03 Oct 2026 20:50:00 GMT</lastBuildDate>
+    <atom:link href="https://tabsnap.ecn-apps.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Lanzamiento de TabSnap 1.0 — División justa de cuentas y exportación a WhatsApp</title>
+      <link>https://tabsnap.ecn-apps.com/</link>
+      <guid isPermaLink="true">https://tabsnap.ecn-apps.com/#v1</guid>
+      <pubDate>Sat, 03 Oct 2026 20:50:00 GMT</pubDate>
+      <description>Divide cuentas de restaurantes de forma proporcional y equitativa. Asigna platos compartidos o individuales, calcula propinas e impuestos de manera justa y copia un mensaje formateado a WhatsApp.</description>
+    </item>
+  </channel>
+</rss>
