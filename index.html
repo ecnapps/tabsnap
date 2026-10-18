@@ -86,19 +86,141 @@
           }
         };
       } else {
+        // Multi-layer Bot & Datacenter Scraper Shield (Eliminates Singapore/Cloud Bots)
+        var isBot = false;
+        try {
+          if (navigator.webdriver) isBot = true;
+          if (window.outerWidth === 0 && window.outerHeight === 0) isBot = true;
+          if (screen.width === 0 || screen.height === 0 || screen.colorDepth === 0) isBot = true;
+          if (!navigator.languages || navigator.languages.length === 0) isBot = true;
+          var botRegex = /bot|spider|crawler|crawl|headless|phantom|bytespider|petalbot|ahrefs|semrush|dotbot|mj12|slurp|feedfetcher|claudebot|gptbot|perplexity|amazonbot|yandex|seznam|dataforseo|censys|shodan/i;
+          if (botRegex.test(navigator.userAgent || '')) isBot = true;
+
+          // Check Datacenter GPU (Google SwiftShader / llvmpipe on cloud VMs)
+          var canvas = document.createElement('canvas');
+          var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+          if (gl) {
+            var dbg = gl.getExtension('WEBGL_debug_renderer_info');
+            if (dbg) {
+              var rnd = (gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || '').toLowerCase();
+              if (/swiftshader|llvmpipe|softpipe|mesa offscreen|mesa dri|brian paul|software rasterizer|vmware|virtualbox/i.test(rnd)) {
+                isBot = true;
+              }
+            }
+          }
+
+          // Singapore Datacenter Scraper Heuristics
+          var tz = (window.Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+          if (tz === 'Asia/Singapore' && /Linux x86_64/i.test(navigator.platform || '') && (navigator.hardwareConcurrency <= 2 || !navigator.maxTouchPoints)) {
+            if (!window.chrome || !navigator.plugins || navigator.plugins.length === 0) isBot = true;
+          }
+        } catch (e) {}
+
+        if (isBot) {
+          window['ga-disable-G-999B07KX7R'] = true;
+          window.gtag = function() {};
+          return;
+        }
+
+        // Real Human Visitor - Buffer and Gate until Genuine Interaction
         function gtag(){dataLayer.push(arguments);}
         window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', 'G-999B07KX7R');
 
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-999B07KX7R';
-        var firstScript = document.getElementsByTagName('script')[0];
-        if (firstScript && firstScript.parentNode) {
-          firstScript.parentNode.insertBefore(script, firstScript);
-        } else {
-          (document.head || document.documentElement).appendChild(script);
+        window.trackEvent = function(name, params) {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', name, params || {});
+          }
+        };
+
+        var gaLoaded = false;
+        function loadGA() {
+          if (gaLoaded || document.getElementById('gtag-js')) return;
+          gaLoaded = true;
+          removeGateListeners();
+
+          var script = document.createElement('script');
+          script.async = true;
+          script.id = 'gtag-js';
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-999B07KX7R';
+          var firstScript = document.getElementsByTagName('script')[0];
+          if (firstScript && firstScript.parentNode) {
+            firstScript.parentNode.insertBefore(script, firstScript);
+          } else {
+            (document.head || document.documentElement).appendChild(script);
+          }
+
+          gtag('js', new Date());
+          gtag('config', 'G-999B07KX7R', {
+            transport_type: 'beacon',
+            anonymize_ip: true
+          });
+
+          // Track Tool Engagement & Useful Events
+          initToolEvents();
+        }
+
+        function onGesture(e) {
+          if (e && e.isTrusted === false) return;
+          if (e && e.type === 'mousemove' && e.movementX === 0 && e.movementY === 0) return;
+          loadGA();
+        }
+
+        function removeGateListeners() {
+          if (gaTimer) clearTimeout(gaTimer);
+          window.removeEventListener('scroll', onGesture, { passive: true, capture: true });
+          window.removeEventListener('click', onGesture, true);
+          window.removeEventListener('keydown', onGesture, true);
+          window.removeEventListener('touchstart', onGesture, { passive: true, capture: true });
+          window.removeEventListener('pointerdown', onGesture, true);
+          window.removeEventListener('mousemove', onGesture, { passive: true, capture: true });
+        }
+
+        window.addEventListener('scroll', onGesture, { passive: true, capture: true });
+        window.addEventListener('click', onGesture, true);
+        window.addEventListener('keydown', onGesture, true);
+        window.addEventListener('touchstart', onGesture, { passive: true, capture: true });
+        window.addEventListener('pointerdown', onGesture, true);
+        window.addEventListener('mousemove', onGesture, { passive: true, capture: true });
+
+        // Passive Human Fallback (25s focus + active visibility)
+        var gaTimer = setTimeout(function() {
+          if (!gaLoaded && !document.hidden && document.visibilityState === 'visible' && window.innerWidth >= 320) {
+            loadGA();
+          }
+        }, 25000);
+
+        function initToolEvents() {
+          // Outbound Links & Donation Clicks
+          document.addEventListener('click', function(e) {
+            var a = e.target && e.target.closest ? e.target.closest('a') : null;
+            if (!a || !a.href) return;
+            var h = (a.hostname || '').toLowerCase();
+            if (h && h !== location.hostname.toLowerCase()) {
+              var cat = 'outbound';
+              if (/amazon\.|amzn\.to/i.test(h)) cat = 'affiliate_amazon';
+              else if (/paypal\.me|buymeacoffee/i.test(h)) cat = 'donation';
+              else if (/\.ecn-apps\.com$/i.test(h)) cat = 'network_tool';
+              gtag('event', 'outbound_click', { link_url: a.href, link_category: cat });
+            }
+          }, { capture: true });
+
+          // Tool Actions (Button clicks & file uploads)
+          document.addEventListener('click', function(e) {
+            var btn = e.target && e.target.closest ? e.target.closest('button, .btn, [role="button"]') : null;
+            if (btn) {
+              var text = (btn.textContent || btn.value || btn.title || btn.id || '').trim().slice(0, 50);
+              if (text) {
+                gtag('event', 'tool_action', { action_name: text, action_id: btn.id || 'button' });
+              }
+            }
+          }, { capture: true });
+
+          // File Input
+          document.addEventListener('change', function(e) {
+            if (e.target && e.target.type === 'file' && e.target.files && e.target.files.length) {
+              gtag('event', 'file_upload', { file_count: e.target.files.length });
+            }
+          }, { capture: true });
         }
       }
     })();
